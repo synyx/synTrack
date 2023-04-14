@@ -1,0 +1,1 @@
+class WorkInterfaceNotFound implements Exception {}
