@@ -1,0 +1,19 @@
+display_name: synTrack
+generic_name: synTrack
+
+icon: assets/logo.png
+
+keywords:
+  - synTrack
+  - timetracking
+  - time tracking
+  - booking
+  - redmine
+
+
+categories:
+  - Utility
+
+startup_notify: false
+
+include: []

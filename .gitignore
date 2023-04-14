@@ -50,3 +50,5 @@ app.*.map.json
 # macos
 macos/Flutter/ephemeral/flutter_export_environment.sh
 macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+
+dist/

@@ -1,0 +1,25 @@
+display_name: synTrack
+generic_name: synTrack
+package_name: syntrack
+
+maintainer:
+  name: Enis Özsoy
+  email: enoy19+github@gmail.com
+icon: assets/logo.png
+
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+
+keywords:
+  - synTrack
+  - timetracking
+  - time tracking
+  - booking
+  - redmine
+
+categories:
+  - Utility
+
+startup_notify: true

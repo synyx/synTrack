@@ -1,0 +1,23 @@
+icon: assets/logo.png
+summary: A time tracking and booking tool
+group: Application/Productivity
+vendor: synyx GmbH + Co. KG
+packager: Enis Özsoy
+packagerEmail: enoy19+github@gmail.com
+license: MIT
+url: https://github.com/synyx/synTrack
+
+display_name: synTrack
+generic_name: synTrack
+
+keywords:
+  - synTrack
+  - timetracking
+  - time tracking
+  - booking
+  - redmine
+
+categories:
+  - Utility
+
+startup_notify: false
