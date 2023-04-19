@@ -1,4 +1,6 @@
 # synTrack
+<img align="right" alt="logo" src="./res/syntrack_logo_s.png" />
+
 Time Tracking and Booking tool built with Flutter to:
 
 1) Search for Redmine Tasks
@@ -7,7 +9,7 @@ Time Tracking and Booking tool built with Flutter to:
 4) ???
 5) Profit!
 
-![synTrack GIF](./doc/synTrack.gif)
+![showcase GIF](./doc/synTrack.gif)
 
 ## Development
 
