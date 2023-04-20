@@ -1,13 +1,6 @@
 name: Release
 
 on:
-  workflow_run:
-    workflows: 
-      - Build
-    branches:
-      - main
-    types: 
-      - completed
   push:
     tags:
       - '*'
@@ -18,10 +11,6 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_run' 
-      && github.event.workflow_run.conclusion == 'success'
-      && startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -54,10 +43,6 @@ jobs:
 
   release-macos:
     runs-on: macos-latest
-    if: |
-      github.event_name == 'workflow_run' 
-      && github.event.workflow_run.conclusion == 'success'
-      && startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
