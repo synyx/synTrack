@@ -5,7 +5,7 @@ package_name: syntrack
 maintainer:
   name: Enis Özsoy
   email: enoy19+github@gmail.com
-icon: assets/logo.png
+icon: res/logo/syntrack_logo.png
 
 priority: optional
 section: x11

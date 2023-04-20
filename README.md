@@ -1,5 +1,5 @@
 # synTrack
-<img align="right" alt="logo" src="./res/syntrack_logo_s.png" />
+<img align="right" alt="logo" src="./res/logo/syntrack_logo_s.png" />
 
 Time Tracking and Booking tool built with Flutter to:
 

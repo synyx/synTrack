@@ -1,7 +1,7 @@
 display_name: synTrack
 generic_name: synTrack
 
-icon: assets/logo.png
+icon: res/logo/syntrack_logo.png
 
 keywords:
   - synTrack
