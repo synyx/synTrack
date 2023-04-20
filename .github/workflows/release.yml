@@ -63,6 +63,7 @@ jobs:
         with:
           node-version: 18
       - run: npm install -g appdmg
+      - run: dart pub global activate flutter_distributor
       - run: flutter config --enable-macos-desktop
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
