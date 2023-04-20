@@ -43,7 +43,13 @@ jobs:
       - run: flutter config --enable-linux-desktop
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
-      - run: flutter_distributor release --name release --skip-jobs linux-appimage,darwin-dmg # TODO: find out why app image file is not found
+      # the release command lines below fails to find the AppImage in the file system because it searches in a
+      # case insensitive way (*.appimage instead of *.AppImage). This is my workaround. Issue: https://github.com/leanflutter/flutter_distributor/issues/118
+      - run: flutter_distributor package --platform linux --targets appimage
+      - run: flutter_distributor publish --targets=github --github-repo-owner=synyx --github-repo-name=synTrack --path="$(echo ./dist/*/*.AppImage)"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: flutter_distributor release --name release --skip-jobs linux-appimage,darwin-dmg
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
