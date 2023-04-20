@@ -40,3 +40,12 @@ releases:
           args:
             repo-owner: synyx
             repo-name: synTrack
+      - name: darwin-dmg
+        package:
+          platform: macos
+          target: dmg
+        publish:
+          target: github
+          args:
+            repo-owner: synyx
+            repo-name: synTrack

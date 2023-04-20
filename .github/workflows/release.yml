@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  workflow_dispatch: # TODO: remove
   workflow_run:
     workflows: 
       - Build
@@ -18,10 +19,10 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_run' 
-      && github.event.workflow_run.conclusion == 'success'
-      && startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
+#    if: |
+#      github.event_name == 'workflow_run' 
+#      && github.event.workflow_run.conclusion == 'success'
+#      && startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -42,7 +43,29 @@ jobs:
       - run: flutter config --enable-linux-desktop
       - run: flutter pub get
       - run: flutter pub run build_runner build --delete-conflicting-outputs
-      - run: flutter_distributor release --name release --skip-jobs linux-appimage # TODO: find out why app image file is not found
+      - run: flutter_distributor release --name release --skip-jobs linux-appimage,darwin-dmg # TODO: find out why app image file is not found
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+  release-macos:
+    runs-on: macos-latest
+#    if: |
+#      github.event_name == 'workflow_run' 
+#      && github.event.workflow_run.conclusion == 'success'
+#      && startsWith(github.event.workflow_run.head_branch, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install -g appdmg
+      - run: flutter config --enable-macos-desktop
+      - run: flutter pub get
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter_distributor release --name release --jobs darwin-dmg
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
