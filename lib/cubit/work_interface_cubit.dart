@@ -2,14 +2,22 @@ import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
 import 'package:syntrack/model/work/redmine/redmine_config.dart';
 import 'package:syntrack/model/work/work_interface_configs.dart';
 
 class WorkInterfaceCubit extends HydratedCubit<WorkInterfaceConfigs> {
-  WorkInterfaceCubit() : super(WorkInterfaceConfigs((b) => b..redmineConfigs = ListBuilder([])));
+  WorkInterfaceCubit()
+      : super(WorkInterfaceConfigs(
+          (b) => b
+            ..redmineConfigs = ListBuilder([])
+            ..erpNextConfigs = ListBuilder([]),
+        ));
 
-  void deleteRedmineConfig(RedmineConfig redmineConfig) {
-    final newConfigs = state.rebuild((b) => b..redmineConfigs.remove(redmineConfig));
+  void deleteConfig(String id) {
+    final newConfigs = state.rebuild((b) => b
+      ..redmineConfigs.removeWhere((config) => config.id == id)
+      ..erpNextConfigs.removeWhere((config) => config.id == id));
     emit(newConfigs);
   }
 
@@ -41,17 +49,53 @@ class WorkInterfaceCubit extends HydratedCubit<WorkInterfaceConfigs> {
     }
   }
 
-  @override
-  WorkInterfaceConfigs? fromJson(Map<String, dynamic> json) {
+  void addOrUpdateErpNextConfig(ErpNextConfig erpNextConfig) {
+    if (getErpNextConfig(erpNextConfig.id) != null) {
+      _updateErpNextConfig(erpNextConfig);
+    } else {
+      _addErpNextConfig(erpNextConfig);
+    }
+  }
+
+  void _updateErpNextConfig(ErpNextConfig erpNextConfig) {
+    final index = state.erpNextConfigs.indexWhere((config) => config.id == erpNextConfig.id);
+
+    final newConfigs = state.rebuild((b) => b..erpNextConfigs.replaceRange(index, index + 1, [erpNextConfig]));
+    emit(newConfigs);
+  }
+
+  void _addErpNextConfig(ErpNextConfig erpNextConfig) {
+    final newConfigs = state.rebuild((b) => b..erpNextConfigs.add(erpNextConfig));
+    emit(newConfigs);
+  }
+
+  ErpNextConfig? getErpNextConfig(String id) {
     try {
-      return WorkInterfaceConfigs.fromJson(jsonEncode(json['data']));
+      return state.erpNextConfigs.firstWhere((config) => config.id == id);
     } catch (e) {
-      // TODO: error log
+      return null;
     }
   }
 
   @override
+  WorkInterfaceConfigs? fromJson(Map<String, dynamic> json) {
+    final version = json['version'] ?? 1;
+    try {
+      if (version <= 2) {
+        return WorkInterfaceConfigs.fromJson(jsonEncode(json['data']));
+      }
+    } catch (e) {
+      // TODO: error log
+    }
+
+    return null;
+  }
+
+  @override
   Map<String, dynamic>? toJson(WorkInterfaceConfigs state) {
-    return {'data': jsonDecode(state.toJson())};
+    return {
+      'version': 2,
+      'data': jsonDecode(state.toJson()),
+    };
   }
 }

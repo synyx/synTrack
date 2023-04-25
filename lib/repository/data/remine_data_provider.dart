@@ -104,7 +104,7 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
   ) async* {
     final response = await _get(_issuesWatchedByMePath, config: config);
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
+    if (_isResponse2XX(response)) {
       final results = RedmineIssueResults.fromJson(response.body)!;
       yield* Stream.fromIterable(results.issues)
           .map((result) {
@@ -241,7 +241,7 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
       },
     );
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
+    if (_isResponse2XX(response)) {
       final activities = RedmineActivities.fromJson(response.body)!;
       return activities.activities
           .map((redmineActivity) => Activity(
