@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,8 @@ import 'package:path/path.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final documentsDir = await getApplicationDocumentsDirectory();
-  final appDir = await Directory('${documentsDir.absolute.path}/synTrack').create();
+  final appDirName = kDebugMode ? 'synTrack_dev' : 'synTrack';
+  final appDir = await Directory('${documentsDir.absolute.path}/$appDirName').create();
 
   await createHydratedBoxBackup(appDir);
 

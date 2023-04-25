@@ -99,7 +99,7 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                 return ListTile(
                   leading: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 25, maxHeight: 25, minWidth: 25, minHeight: 25),
-                    child: WorkInterfaceIcon(taskSearchResult: suggestion),
+                    child: WorkInterfaceIcon(origin: suggestion.origin),
                   ),
                   title: Text(suggestion.displayText),
                   subtitle: Text('#${suggestion.task.id}'),

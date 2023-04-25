@@ -9,7 +9,8 @@ part 'task_search_origin.g.dart';
 class TaskSearchOrigin extends EnumClass {
 
   static const TaskSearchOrigin redmine = _$redmine;
-  static const TaskSearchOrigin latestBookings= _$latestBookings;
+  static const TaskSearchOrigin latestBookings = _$latestBookings;
+  static const TaskSearchOrigin erpNext = _$erpNext;
 
   const TaskSearchOrigin._(String name) : super(name);
 

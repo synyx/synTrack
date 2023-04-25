@@ -8,6 +8,15 @@ import 'package:syntrack/model/common/task.dart';
 import 'package:syntrack/model/common/task_search_origin.dart';
 import 'package:syntrack/model/common/task_search_result.dart';
 import 'package:syntrack/model/common/time_entry.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_activity_type_list.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_activity_type.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_task.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_task_list.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_timesheet.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_timesheet_data.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_timesheet_list.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_timesheet_log.dart';
 import 'package:syntrack/model/work/redmine/redmine_activities.dart';
 import 'package:syntrack/model/work/redmine/redmine_activity.dart';
 import 'package:syntrack/model/work/redmine/redmine_api_issue_result.dart';
@@ -44,6 +53,15 @@ part 'serializers.g.dart';
   TaskSearchOrigin,
   RedmineIssueResults,
   RedmineIssue,
+  ErpNextConfig,
+  ErpNextActivityTypeList,
+  ErpNextActivityType,
+  ErpNextTaskList,
+  ErpNextTask,
+  ErpNextTimesheet,
+  ErpNextTimesheetLog,
+  ErpNextTimesheetList,
+  ErpNextTimesheetData,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(Iso8601DateTimeSerializer())

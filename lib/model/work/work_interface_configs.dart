@@ -6,12 +6,16 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:syntrack/model/serializer/serializers.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
 import 'package:syntrack/model/work/redmine/redmine_config.dart';
 
 part 'work_interface_configs.g.dart';
 
 abstract class WorkInterfaceConfigs implements Built<WorkInterfaceConfigs, WorkInterfaceConfigsBuilder> {
   BuiltList<RedmineConfig> get redmineConfigs;
+  BuiltList<ErpNextConfig> get erpNextConfigs;
+
+  List<dynamic> get combinedConfigs => [...redmineConfigs, ...erpNextConfigs];
 
   WorkInterfaceConfigs._();
 

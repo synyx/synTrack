@@ -7,13 +7,17 @@ import 'package:syntrack/model/common/task.dart';
 import 'package:syntrack/model/common/task_search_result.dart';
 import 'package:syntrack/model/common/time_entry.dart';
 import 'package:syntrack/model/work/booking_result.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
 import 'package:syntrack/model/work/redmine/redmine_config.dart';
 import 'package:syntrack/model/work/work_interface_configs.dart';
+import 'package:syntrack/repository/data/erpnext_data_provider.dart';
 import 'package:syntrack/repository/data/latest_bookings_data_provider.dart';
 import 'package:syntrack/repository/data/remine_data_provider.dart';
+import 'package:syntrack/repository/data/work_data_provider.dart';
 
 class WorkRepository {
   final redmineDataProvider = RedmineDataProvider();
+  final erpNextDataProvider = ErpNextDataProvider();
   late final LatestBookingsDataProvider latestBookingsDataProvider;
 
   late WorkInterfaceConfigs _currentConfigs;
@@ -43,38 +47,54 @@ class WorkRepository {
 
     final redmineStreams = _currentConfigs.redmineConfigs.map((config) => redmineDataProvider.search(config, query));
 
+    final erpNextStreams = _currentConfigs.erpNextConfigs.map((config) => erpNextDataProvider.search(config, query));
+
     final mergedStream = StreamGroup.merge([
       ...redmineStreams,
+      ...erpNextStreams,
       latestBookingsStream,
     ]);
 
     yield* mergedStream;
   }
 
-  Future<BookingResult> book(TimeEntry timeEntry) async {
+  Future<BookingResult> book(TimeEntry timeEntry) {
     final workInterfaceId = timeEntry.task!.workInterfaceId;
-    final redmineConfig = _getRedmineConfig(workInterfaceId);
+    final config = _getWorkInterfaceConfig(workInterfaceId);
+    final workDataProvider = _getWorkDataProvider(config);
 
-    return redmineDataProvider.book(redmineConfig, timeEntry);
+    return workDataProvider.book(config, timeEntry);
+  }
+
+  WorkDataProvider _getWorkDataProvider(dynamic workInterfaceConfig) {
+    if (workInterfaceConfig is RedmineConfig) {
+      return redmineDataProvider;
+    } else if (workInterfaceConfig is ErpNextConfig) {
+      return erpNextDataProvider;
+    }
+
+    throw WorkInterfaceNotFound();
   }
 
   Future<void> deleteBooking(TimeEntry timeEntry) {
     final workInterfaceId = timeEntry.task!.workInterfaceId;
-    final redmineConfig = _getRedmineConfig(workInterfaceId);
+    final config = _getWorkInterfaceConfig(workInterfaceId);
+    final workDataProvider = _getWorkDataProvider(config);
 
-    return redmineDataProvider.deleteBooking(redmineConfig, timeEntry);
+    return workDataProvider.deleteBooking(config, timeEntry);
   }
 
   Future<List<Activity>> getAvailableActivies(Task task) {
     final workInterfaceId = task.workInterfaceId;
-    final redmineConfig = _getRedmineConfig(workInterfaceId);
+    final config = _getWorkInterfaceConfig(workInterfaceId);
+    final workDataProvider = _getWorkDataProvider(config);
 
-    return redmineDataProvider.getAvailableActivities(redmineConfig);
+    return workDataProvider.getAvailableActivities(config);
   }
 
-  RedmineConfig _getRedmineConfig(String workInterfaceId) {
+  dynamic _getWorkInterfaceConfig(String workInterfaceId) {
     try {
-      return _currentConfigs.redmineConfigs.firstWhere((config) => config.id == workInterfaceId);
+      return _currentConfigs.combinedConfigs.firstWhere((config) => config.id == workInterfaceId);
     } catch (e) {
       throw WorkInterfaceNotFound();
     }
