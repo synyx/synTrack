@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syntrack/model/common/task_search_origin.dart';
-import 'package:syntrack/model/common/task_search_result.dart';
 
 class WorkInterfaceIcon extends StatelessWidget {
   final TaskSearchOrigin origin;

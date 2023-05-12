@@ -24,6 +24,7 @@ class DateSelector extends StatelessWidget {
       onTap: entry.bookingId != null || readOnly
           ? null
           : () async {
+              final timeEntriesCubit = context.read<TimeEntriesCubit>();
               final start = entry.start.toLocal();
               final end = entry.end.toLocal();
 
@@ -40,16 +41,16 @@ class DateSelector extends StatelessWidget {
                 final newStart = DateTime(newDate.year, newDate.month, newDate.day, start.hour, start.minute).toUtc();
                 final newEnd = DateTime(newDate.year, newDate.month, newDate.day, end.hour, end.minute).toUtc();
 
-                context.read<TimeEntriesCubit>().update(
-                      entry.id,
-                      entry.rebuild((b) => b
-                        ..start = newStart
-                        ..end = newEnd),
-                    );
+                timeEntriesCubit.update(
+                  entry.id,
+                  entry.rebuild((b) => b
+                    ..start = newStart
+                    ..end = newEnd),
+                );
               }
             },
       child: Text(
-        '${_formatterDate.format(entry.start.toLocal())}',
+        _formatterDate.format(entry.start.toLocal()),
         style: style,
       ),
     );

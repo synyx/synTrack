@@ -107,7 +107,7 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
             hideActivitySelector: true,
             onBooked: (e) {
               setState(() {
-                _errorMessage = e != null ? e.toString() : null;
+                _errorMessage = e?.toString();
               });
             },
             onTrack: () => context.router.pop(),

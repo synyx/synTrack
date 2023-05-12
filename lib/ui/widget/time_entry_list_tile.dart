@@ -103,7 +103,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                   entry: widget.entry,
                   onBooked: (e) {
                     setState(() {
-                      _errorMessage = e != null ? e.toString() : null;
+                      _errorMessage = e?.toString();
                     });
                   },
                 ),
@@ -124,7 +124,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
       builder: (context) => BlocBuilder<TimeEntriesCubit, List<TimeEntry>>(
         builder: (context, state) {
           try {
-            final entry = state.firstWhere((element) => element.id == this.widget.entry.id);
+            final entry = state.firstWhere((element) => element.id == widget.entry.id);
             return Container(
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
               child: TimeEntryEditor(entry: entry),

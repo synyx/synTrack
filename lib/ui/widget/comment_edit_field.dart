@@ -28,12 +28,9 @@ class CommentEditField extends StatelessWidget {
       onChanged: (value) {
         context.read<TimeTrackingCubit>().setComment(value);
       },
-      toolbarOptions: const ToolbarOptions(
-        copy: true,
-        cut: true,
-        paste: true,
-        selectAll: true,
-      ),
+      contextMenuBuilder: (context, editableTextState) {
+        return AdaptiveTextSelectionToolbar.editableText(editableTextState: editableTextState);
+      },
     );
   }
 

@@ -81,6 +81,7 @@ class TimeEntryActions extends StatelessWidget {
                 // This is needed because pop up calls navigator pop...
                 // see: https://stackoverflow.com/a/69569276
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  final timeEntriesCubit = context.read<TimeEntriesCubit>();
                   final date = await showDatePicker(
                     context: context,
                     initialDate: entry.start,
@@ -92,7 +93,7 @@ class TimeEntryActions extends StatelessWidget {
                   if (date != null) {
                     debugPrint('date is utc: ${date.isUtc}');
 
-                    context.read<TimeEntriesCubit>().copyTo(
+                    timeEntriesCubit.copyTo(
                         entry,
                         (entry) => [
                               date
@@ -117,6 +118,7 @@ class TimeEntryActions extends StatelessWidget {
                 // This is needed because pop up calls navigator pop...
                 // see: https://stackoverflow.com/a/69569276
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  final timeEntriesCubit = context.read<TimeEntriesCubit>();
                   final dateRange = await showDateRangePicker(
                     context: context,
                     initialDateRange: DateTimeRange(start: entry.start, end: entry.end),
@@ -127,19 +129,19 @@ class TimeEntryActions extends StatelessWidget {
                   debugPrint('selected date range: $dateRange');
 
                   if (dateRange != null) {
-                    context.read<TimeEntriesCubit>().copyTo(
-                          entry,
-                          (entry) => dateRange.getAllDays().map(
-                                (e) => e
-                                    .copyWith(
-                                      hour: entry.start.toLocal().hour,
-                                      minute: entry.start.toLocal().minute,
-                                      second: entry.start.toLocal().second,
-                                      millisecond: entry.start.toLocal().millisecond,
-                                    )
-                                    .toUtc(),
-                              ),
-                        );
+                    timeEntriesCubit.copyTo(
+                      entry,
+                      (entry) => dateRange.getAllDays().map(
+                            (e) => e
+                                .copyWith(
+                                  hour: entry.start.toLocal().hour,
+                                  minute: entry.start.toLocal().minute,
+                                  second: entry.start.toLocal().second,
+                                  millisecond: entry.start.toLocal().millisecond,
+                                )
+                                .toUtc(),
+                          ),
+                    );
                   }
                 });
               },
@@ -153,6 +155,8 @@ class TimeEntryActions extends StatelessWidget {
               ),
               onTap: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  final timeEntriesCubit = context.read<TimeEntriesCubit>();
+                  
                   final confirm = await showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -189,7 +193,7 @@ Are you sure that you want to force delete this entry?'''),
                   );
                   if (confirm != null && confirm) {
                     onDelete?.call();
-                    context.read<TimeEntriesCubit>().delete(entry.id);
+                    timeEntriesCubit.delete(entry.id);
                   }
                 });
               },

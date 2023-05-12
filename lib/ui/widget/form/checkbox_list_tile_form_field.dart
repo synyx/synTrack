@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CheckboxListTileFormField extends FormField<bool> {
   CheckboxListTileFormField({
+    super.key,
     required bool initialValue,
     FormFieldSetter<bool>? onSaved,
     Widget? title,
