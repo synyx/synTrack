@@ -14,13 +14,13 @@ import 'package:syntrack/cubit/time_tracking_cubit.dart';
 import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/repository/data/latest_bookings_data_provider.dart';
 import 'package:syntrack/repository/work_repository.dart';
-import 'package:syntrack/router.gr.dart';
-import 'package:path/path.dart';
+import 'package:syntrack/router.dart';
+import 'package:path/path.dart' as path;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final documentsDir = await getApplicationDocumentsDirectory();
-  final appDirName = kDebugMode ? 'synTrack_dev' : 'synTrack';
+  const appDirName = kDebugMode ? 'synTrack_dev' : 'synTrack';
   final appDir = await Directory('${documentsDir.absolute.path}/$appDirName').create();
 
   await createHydratedBoxBackup(appDir);
@@ -41,7 +41,7 @@ Future<void> createHydratedBoxBackup(Directory appDir, {int maxBackups = 10}) as
         .list(followLinks: false, recursive: false)
         .where((file) {
           final stat = file.statSync();
-          final fileName = basename(file.path);
+          final fileName = path.basename(file.path);
           return stat.type == FileSystemEntityType.file && fileName.startsWith("backup_");
         })
         .map((file) => File(file.path))
@@ -59,8 +59,10 @@ Future<void> createHydratedBoxBackup(Directory appDir, {int maxBackups = 10}) as
 }
 
 class SynTrack extends StatelessWidget {
-  static final primarySwatch = Colors.blue;
+  static const primarySwatch = Colors.blue;
   final _appRouter = AppRouter();
+
+  SynTrack({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +104,8 @@ class SynTrack extends StatelessWidget {
         child: Sizer(
           builder: (context, orientation, deviceType) {
             return MaterialApp.router(
-              supportedLocales: [Locale('de')],
-              localizationsDelegates: [
+              supportedLocales: const [Locale('de')],
+              localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate

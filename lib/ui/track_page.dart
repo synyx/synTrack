@@ -10,6 +10,7 @@ import 'package:syntrack/router.gr.dart';
 import 'package:syntrack/ui/widget/time_entries_list.dart';
 import 'package:syntrack/ui/widget/time_tracking_header.dart';
 
+@RoutePage()
 class TrackPage extends StatelessWidget {
   const TrackPage({Key? key}) : super(key: key);
 

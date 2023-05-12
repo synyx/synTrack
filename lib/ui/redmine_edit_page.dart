@@ -5,6 +5,7 @@ import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/model/work/redmine/redmine_config.dart';
 import 'package:syntrack/ui/widget/form/checkbox_list_tile_form_field.dart';
 
+@RoutePage()
 class RedmineEditPage extends StatefulWidget {
   final RedmineConfig? initialConfig;
 

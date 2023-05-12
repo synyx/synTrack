@@ -8,6 +8,7 @@ import 'package:syntrack/model/work/redmine/redmine_config.dart';
 import 'package:syntrack/router.gr.dart';
 import 'package:syntrack/ui/widget/work_interface_icon.dart';
 
+@RoutePage()
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 

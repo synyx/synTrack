@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
 
+@RoutePage()
 class ErpNextEditPage extends StatefulWidget {
   final ErpNextConfig? initialConfig;
 
