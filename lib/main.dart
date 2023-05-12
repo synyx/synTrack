@@ -113,6 +113,7 @@ class SynTrack extends StatelessWidget {
               title: 'synTrack',
               theme: ThemeData(
                 primarySwatch: primarySwatch,
+                useMaterial3: false,
               ),
               routerDelegate: _appRouter.delegate(),
               routeInformationParser: _appRouter.defaultRouteParser(),
