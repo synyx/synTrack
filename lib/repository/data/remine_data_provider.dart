@@ -35,7 +35,7 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
   static const _activitiesPath = '/enumerations/time_entry_activities.json';
 
   static final _issueIdRegex = RegExp(r'#(\d+)');
-  static final _ticketIdSearchStartWith = '#';
+  static const _ticketIdSearchStartWith = '#';
 
   @override
   Stream<TaskSearchResult> search(RedmineConfig config, String query) async* {
@@ -65,9 +65,7 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
     if (_isResponse2XX(response)) {
       final result = RedmineApiIssueResult.fromJson(response.body)!;
       final task = _createTaskFromIssue(result.issue, config, availableActivities);
-      if (task != null) {
-        yield task;
-      }
+      yield task;
     }
   }
 
@@ -82,17 +80,14 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
 
     if (_isResponse2XX(response)) {
       final results = RedmineIssueResults.fromJson(response.body)!;
-      yield* Stream.fromIterable(results.issues)
-          .map((result) {
-            return _createTaskFromIssue(
-              result,
-              config,
-              availableActivities,
-              displayText: '[A] - ${result.tracker.name} #${result.id}: ${result.subject}',
-            );
-          })
-          .where((event) => event != null)
-          .map((event) => event!);
+      yield* Stream.fromIterable(results.issues).map((result) {
+        return _createTaskFromIssue(
+          result,
+          config,
+          availableActivities,
+          displayText: '[A] - ${result.tracker.name} #${result.id}: ${result.subject}',
+        );
+      }).map((event) => event);
     } else {
       throw Exception('search failed: ${response.body}');
     }
@@ -106,17 +101,14 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
 
     if (_isResponse2XX(response)) {
       final results = RedmineIssueResults.fromJson(response.body)!;
-      yield* Stream.fromIterable(results.issues)
-          .map((result) {
-            return _createTaskFromIssue(
-              result,
-              config,
-              availableActivities,
-              displayText: '\u2B50 - ${result.tracker.name} #${result.id}: ${result.subject}',
-            );
-          })
-          .where((event) => event != null)
-          .map((event) => event!);
+      yield* Stream.fromIterable(results.issues).map((result) {
+        return _createTaskFromIssue(
+          result,
+          config,
+          availableActivities,
+          displayText: '\u2B50 - ${result.tracker.name} #${result.id}: ${result.subject}',
+        );
+      });
     } else {
       throw Exception('search failed: ${response.body}');
     }
@@ -283,11 +275,11 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
           },
           body: RedmineTimeEntryWrapper((b) => b..timeEntry = redmineTimeEntry.toBuilder()).toJson(),
         )
-        .timeout(Duration(seconds: 5));
+        .timeout(const Duration(seconds: 5));
 
     if (response.statusCode < 200 || response.statusCode > 299) {
       final message = [
-        '[${response.statusCode} ${response.reasonPhrase != null ? response.reasonPhrase : ''}]',
+        '[${response.statusCode} ${response.reasonPhrase ?? ''}]',
         if (response.body.trim().isNotEmpty) response.body,
       ].join(" ");
       throw Exception('booking failed: $message');
@@ -314,7 +306,7 @@ class RedmineDataProvider extends WorkDataProvider<RedmineConfig> {
 
   Duration _getEffectiveDuration(Duration duration, {required bool roundUp}) {
     if (roundUp) {
-      final durationRoundUp = duration.roundUp(delta: Duration(minutes: 15));
+      final durationRoundUp = duration.roundUp(delta: const Duration(minutes: 15));
       return durationRoundUp;
     }
 

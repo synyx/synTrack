@@ -39,7 +39,7 @@ class TimeEntryActions extends StatelessWidget {
             onBooked: onBooked,
           ),
         TextButton(
-          child: Icon(Icons.play_arrow),
+          child: const Icon(Icons.play_arrow),
           onPressed: () {
             onTrack?.call();
             context.read<TimeTrackingCubit>().track(
@@ -58,22 +58,22 @@ class TimeEntryActions extends StatelessWidget {
         PopupMenuButton(
           itemBuilder: (context) => <PopupMenuEntry>[
             PopupMenuItem(
-              child: ListTile(
+              child: const ListTile(
                 leading: Icon(Icons.copy),
                 title: Text('Copy - next day'),
               ),
               onTap: () => context.read<TimeEntriesCubit>().copyToNextDay(entry),
             ),
             PopupMenuItem(
-              child: ListTile(
+              child: const ListTile(
                 leading: Icon(Icons.copy),
                 title: Text('Copy - previous day'),
               ),
               onTap: () => context.read<TimeEntriesCubit>().copyToPreviousDay(entry),
             ),
-            PopupMenuDivider(),
+            const PopupMenuDivider(),
             PopupMenuItem(
-              child: ListTile(
+              child: const ListTile(
                 leading: Icon(Icons.calendar_today),
                 title: Text('Copy - select date'),
               ),
@@ -85,7 +85,7 @@ class TimeEntryActions extends StatelessWidget {
                     context: context,
                     initialDate: entry.start,
                     firstDate: DateTime.fromMicrosecondsSinceEpoch(0),
-                    lastDate: entry.start.add(Duration(days: 99999)),
+                    lastDate: entry.start.add(const Duration(days: 99999)),
                   );
 
                   debugPrint('selected date: $date');
@@ -109,7 +109,7 @@ class TimeEntryActions extends StatelessWidget {
               },
             ),
             PopupMenuItem(
-              child: ListTile(
+              child: const ListTile(
                 leading: Icon(Icons.calendar_month),
                 title: Text('Copy - date range'),
               ),
@@ -121,7 +121,7 @@ class TimeEntryActions extends StatelessWidget {
                     context: context,
                     initialDateRange: DateTimeRange(start: entry.start, end: entry.end),
                     firstDate: DateTime.fromMicrosecondsSinceEpoch(0),
-                    lastDate: entry.start.add(Duration(days: 99999)),
+                    lastDate: entry.start.add(const Duration(days: 99999)),
                   );
 
                   debugPrint('selected date range: $dateRange');
@@ -144,12 +144,12 @@ class TimeEntryActions extends StatelessWidget {
                 });
               },
             ),
-            PopupMenuDivider(),
+            const PopupMenuDivider(),
             PopupMenuItem(
               child: ListTile(
                 textColor: Colors.red[700],
-                leading: Icon(Icons.delete_forever),
-                title: Text('Force delete entry'),
+                leading: const Icon(Icons.delete_forever),
+                title: const Text('Force delete entry'),
               ),
               onTap: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -162,7 +162,7 @@ class TimeEntryActions extends StatelessWidget {
                           color: Theme.of(context).colorScheme.error,
                         ),
                       ),
-                      content: Text('''This action deletes the time entry directly out of the database.
+                      content: const Text('''This action deletes the time entry directly out of the database.
 If the time entry is booked, the booking will remain.
 
 Are you sure that you want to force delete this entry?'''),
@@ -182,7 +182,7 @@ Are you sure that you want to force delete this entry?'''),
                         ),
                         ElevatedButton(
                           onPressed: () => Navigator.pop(context, false),
-                          child: Text('No, dont delete'),
+                          child: const Text('No, dont delete'),
                         ),
                       ],
                     ),

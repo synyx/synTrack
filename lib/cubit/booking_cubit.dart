@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syntrack/cubit/time_entries_cubit.dart';
 import 'package:syntrack/exception/work_interface_not_found.dart';
 import 'package:syntrack/model/common/time_entry.dart';

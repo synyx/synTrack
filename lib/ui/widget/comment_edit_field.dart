@@ -15,10 +15,10 @@ class CommentEditField extends StatelessWidget {
           ),
       decoration: InputDecoration(
         hintText: 'Comment',
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         prefixIcon: Container(
-          constraints: BoxConstraints(maxWidth: 50, maxHeight: 50, minWidth: 50, minHeight: 50),
-          child: Icon(Icons.access_time),
+          constraints: const BoxConstraints(maxWidth: 50, maxHeight: 50, minWidth: 50, minHeight: 50),
+          child: const Icon(Icons.access_time),
         ),
         /*TODO: suffixIcon: IconButton(
           icon: Icon(Icons.close),
@@ -28,7 +28,7 @@ class CommentEditField extends StatelessWidget {
       onChanged: (value) {
         context.read<TimeTrackingCubit>().setComment(value);
       },
-      toolbarOptions: ToolbarOptions(
+      toolbarOptions: const ToolbarOptions(
         copy: true,
         cut: true,
         paste: true,

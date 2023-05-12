@@ -9,7 +9,7 @@ class TimeTrackingWatch extends StatefulWidget {
   const TimeTrackingWatch({Key? key}) : super(key: key);
 
   @override
-  _TimeTrackingWatchState createState() => _TimeTrackingWatchState();
+  State<TimeTrackingWatch> createState() => _TimeTrackingWatchState();
 }
 
 class _TimeTrackingWatchState extends State<TimeTrackingWatch> {
@@ -21,13 +21,13 @@ class _TimeTrackingWatchState extends State<TimeTrackingWatch> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<TimeTrackingCubit>().stream.listen((event) {
         _handeTimeTrackingState(event);
       });
       _handeTimeTrackingState(context.read<TimeTrackingCubit>().state);
 
-      _timer = Timer.periodic(Duration(seconds: 1), (_) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (_) {
         setState(() {
           if (_startTime != null) {
             _currentDuration = DateTime.now().difference(_startTime!);
@@ -49,7 +49,7 @@ class _TimeTrackingWatchState extends State<TimeTrackingWatch> {
         onTap: () => _selectStartTime(context),
         child: Text(
           '$hours:$minutes:$seconds',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
           ),
         ),
@@ -61,13 +61,15 @@ class _TimeTrackingWatchState extends State<TimeTrackingWatch> {
     final state = context.read<TimeTrackingCubit>().state;
 
     if (state.isTracking) {
+      final timeTrackingCubit = context.read<TimeTrackingCubit>();
+
       final newTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(state.start!.toLocal()),
       );
 
       if (newTime != null) {
-        context.read<TimeTrackingCubit>().setStartTime(newTime);
+        timeTrackingCubit.setStartTime(newTime);
       }
     }
   }

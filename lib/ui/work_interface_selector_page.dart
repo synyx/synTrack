@@ -12,7 +12,7 @@ class WorkInterfaceSelectorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Work Interface'),
+        title: const Text('Select Work Interface'),
         centerTitle: true,
       ),
       body: BlocBuilder<WorkInterfaceCubit, WorkInterfaceConfigs>(

@@ -32,7 +32,7 @@ class DateSelector extends StatelessWidget {
                 initialDate: start,
                 firstDate: DateTime.fromMillisecondsSinceEpoch(0),
                 lastDate: DateTime.now().add(
-                  Duration(days: 365),
+                  const Duration(days: 365),
                 ),
               );
 

@@ -10,7 +10,7 @@ extension DateTimeExtension on DateTimeRange {
 
     while (currentDate.isBefore(endEndOfDay)) {
       days.add(currentDate);
-      currentDate = currentDate.add(Duration(days: 1));
+      currentDate = currentDate.add(const Duration(days: 1));
     }
 
     return days;

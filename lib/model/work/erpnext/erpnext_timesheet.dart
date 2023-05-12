@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:syntrack/model/serializer/serializers.dart';
 import 'package:syntrack/model/work/erpnext/erpnext_timesheet_log.dart';

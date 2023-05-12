@@ -56,14 +56,14 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
                         padding: EdgeInsets.only(right: padding),
                         child: TextButton.icon(
                           onPressed: () => context.read<TimeTrackingCubit>().removeTask(),
-                          icon: Icon(Icons.delete),
-                          label: Text('REMOVE TASK'),
+                          icon: const Icon(Icons.delete),
+                          label: const Text('REMOVE TASK'),
                         ),
                       ),
                     Expanded(
                       child: Text(
                         trackingState.task != null ? 'Task: ${trackingState.task?.name}' : 'Task: <NO TASK>',
-                        style: TextStyle(),
+                        style: const TextStyle(),
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
@@ -76,7 +76,7 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
               children: [
                 Expanded(
                   child: trackingState.isTracking && !_searchingTask
-                      ? CommentEditField()
+                      ? const CommentEditField()
                       : TaskTrackingHeaderTaskSearchField(
                           onSearchDone: () {
                             setState(() {
@@ -97,13 +97,13 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
                   SizedBox(width: spacing),
                 ],
                 Container(
-                  constraints: BoxConstraints(minWidth: 100),
-                  child: Center(
+                  constraints: const BoxConstraints(minWidth: 100),
+                  child: const Center(
                     child: TimeTrackingWatch(),
                   ),
                 ),
-                SizedBox(width: 16),
-                if (SizerUtil.deviceType != DeviceType.mobile) StartStopOrDiscardTrackingButton(),
+                const SizedBox(width: 16),
+                if (SizerUtil.deviceType != DeviceType.mobile) const StartStopOrDiscardTrackingButton(),
               ],
             ),
             SizedBox(width: spacing),

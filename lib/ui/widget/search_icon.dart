@@ -10,14 +10,14 @@ class SearchIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 50, maxHeight: 50, minWidth: 50, minHeight: 50),
+      constraints: const BoxConstraints(maxWidth: 50, maxHeight: 50, minWidth: 50, minHeight: 50),
       child: Stack(
         children: [
-          Positioned.fill(child: Icon(Icons.search)),
+          const Positioned.fill(child: Icon(Icons.search)),
           if (context.watch<TaskSearchCubit>().state is Searching)
-            Positioned.fill(
+            const Positioned.fill(
               child: Padding(
-                padding: const EdgeInsets.all(6.0),
+                padding: EdgeInsets.all(6.0),
                 child: CircularProgressIndicator(),
               ),
             ),

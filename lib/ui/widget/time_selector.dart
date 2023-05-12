@@ -69,7 +69,7 @@ class _TimeSelector extends StatelessWidget {
                     if (newStart.isAfter(end)) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Invalid start time'),
+                          content: const Text('Invalid start time'),
                           backgroundColor: Theme.of(context).colorScheme.error,
                         ),
                       );
@@ -111,7 +111,7 @@ class _TimeSelector extends StatelessWidget {
                     if (start.isAfter(newEnd)) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Invalid end time'),
+                          content: const Text('Invalid end time'),
                           backgroundColor: Theme.of(context).colorScheme.error,
                         ),
                       );

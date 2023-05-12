@@ -25,9 +25,9 @@ final _erpNextDateTimeFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 const _apiResourcePath = 'api/resource';
 const _apiMethodPath = 'api/method';
 
-const _activityTypeResourcePath = '${_apiResourcePath}/Activity%20Type?filters=[["disabled", "=", 0]]';
-const _timesheetResourcePath = '${_apiResourcePath}/Timesheet';
-final _loggedInUserMethodPath = '${_apiMethodPath}/frappe.auth.get_logged_user';
+const _activityTypeResourcePath = '$_apiResourcePath/Activity%20Type?filters=[["disabled", "=", 0]]';
+const _timesheetResourcePath = '$_apiResourcePath/Timesheet';
+const _loggedInUserMethodPath = '$_apiMethodPath/frappe.auth.get_logged_user';
 
 const _timesheetPrefix = 'syntrack_';
 const _mandatoryFirstTimeLogDescription = 'syntrack_temp_mandatory_time_log';
@@ -43,7 +43,8 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     String query,
     int pageNumber,
   ) =>
-      '${_apiResourcePath}/Task' +
+      // ignore: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
+      '$_apiResourcePath/Task' +
       '?or_filters=[["description", "like", "%$query%"],["subject", "like", "%$query%"],["name", "like", "%$query%"]]' +
       '&fields=["name","subject","project"]' +
       '&limit_page_length=$_limitPageLength&limit_start=${pageNumber * _limitPageLength}';
@@ -52,7 +53,8 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     String owner,
     String taskId,
   ) =>
-      '${_apiResourcePath}/Timesheet' +
+      // ignore: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
+      '$_apiResourcePath/Timesheet' +
       '?fields=["title", "name","docstatus","status"]' +
       '&filters=[["owner","=","$owner"],["title","like","$_timesheetPrefix${taskId}_%"]]' +
       '&order_by=name%20asc';
@@ -60,7 +62,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
   String _timesheetGetPath(
     String timesheetName,
   ) =>
-      '${_apiResourcePath}/Timesheet/${timesheetName}';
+      '$_apiResourcePath/Timesheet/$timesheetName';
 
   @override
   Future<BookingResult> book(ErpNextConfig config, TimeEntry timeEntry) async {
@@ -78,13 +80,13 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     final timeLogName = await _createTimeLog(config, timesheet, timeEntry);
 
     return BookingResult(
-      bookingId: '${timesheet.name}_${timeLogName}',
+      bookingId: '${timesheet.name}_$timeLogName',
       duration: timeEntry.duration,
     );
   }
 
   Future<String> _createTimeLog(ErpNextConfig config, ErpNextTimesheet timesheet, TimeEntry timeEntry) async {
-    final path = '${_timesheetResourcePath}/${timesheet.name}';
+    final path = '$_timesheetResourcePath/${timesheet.name}';
     final tempUuidForMapping = uuid.v4();
     final tempTimeLog = ErpNextTimesheetLog(
       (log) => log..description = tempUuidForMapping,
@@ -172,12 +174,12 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
       _timesheetResourcePath,
       config: config,
       body:
-          '{ "title": "${timesheetTitle}", "time_logs": [{ "description": "${_mandatoryFirstTimeLogDescription}" }] }',
+          '{ "title": "$timesheetTitle", "time_logs": [{ "description": "$_mandatoryFirstTimeLogDescription" }] }',
       fromJson: ErpNextTimesheetData.fromJson,
     ).then((value) => value.data);
   }
 
-  String _getTimesheetTitle(Task task, int suffix) => '${_timesheetPrefix}${task.id}_${suffix}';
+  String _getTimesheetTitle(Task task, int suffix) => '$_timesheetPrefix${task.id}_$suffix';
 
   @override
   Future<void> deleteBooking(ErpNextConfig config, TimeEntry timeEntry) async {
@@ -186,7 +188,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
 
     final parsedBookingId = _parseTimesheetLogBookingId(timeEntry.bookingId!);
     final timesheet = await _getTimesheet(config, parsedBookingId.timesheetName);
-    final path = '${_timesheetResourcePath}/${timesheet.name}';
+    final path = '$_timesheetResourcePath/${timesheet.name}';
 
     if (timesheet.docstatus == 1) {
       // submitted
@@ -202,7 +204,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
       throw DeleteBookingFailedException('Could not find Timesheet Log ${parsedBookingId.timesheetLogName}');
     }
 
-    if (newTimesheet.timeLogs.length <= 0) {
+    if (newTimesheet.timeLogs.isEmpty) {
       final response = await _deleteOrFail(path, config: config);
       final responseJson = jsonDecode(response.body);
       if (responseJson['message'] == null || responseJson['message'] != 'ok') {
@@ -310,7 +312,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     if (!_isResponse2XX(response)) {
       final message = [
         'GET - ',
-        '[${response.statusCode} ${response.reasonPhrase != null ? response.reasonPhrase : ''}]',
+        '[${response.statusCode} ${response.reasonPhrase ?? ''}]',
         if (response.body.trim().isNotEmpty) response.body,
       ].join(" ");
       throw Exception('request failed: $message');
@@ -343,7 +345,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     if (!_isResponse2XX(response)) {
       final message = [
         'POST - ',
-        '[${response.statusCode} ${response.reasonPhrase != null ? response.reasonPhrase : ''}]',
+        '[${response.statusCode} ${response.reasonPhrase ?? ''}]',
         if (response.body.trim().isNotEmpty) response.body,
       ].join(" ");
       throw Exception('request failed: $message');
@@ -376,7 +378,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     if (!_isResponse2XX(response)) {
       final message = [
         'PUT - ',
-        '[${response.statusCode} ${response.reasonPhrase != null ? response.reasonPhrase : ''}]',
+        '[${response.statusCode} ${response.reasonPhrase ?? ''}]',
         if (response.body.trim().isNotEmpty) response.body,
       ].join(" ");
       throw Exception('request failed: $message');
@@ -399,7 +401,7 @@ class ErpNextDataProvider extends WorkDataProvider<ErpNextConfig> {
     if (!_isResponse2XX(response)) {
       final message = [
         'DELETE - ',
-        '[${response.statusCode} ${response.reasonPhrase != null ? response.reasonPhrase : ''}]',
+        '[${response.statusCode} ${response.reasonPhrase ?? ''}]',
         if (response.body.trim().isNotEmpty) response.body,
       ].join(" ");
       throw Exception('request failed: $message');

@@ -18,12 +18,12 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
         centerTitle: true,
       ),
       body: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 500),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -32,15 +32,15 @@ class SettingsPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: AppBar(
                     backgroundColor: Theme.of(context).primaryColorDark,
-                    title: Text('Work Interfaces'),
+                    title: const Text('Work Interfaces'),
                     automaticallyImplyLeading: false,
                     shadowColor: Colors.transparent,
                     actions: [
                       PopupMenuButton(
-                        icon: Icon(Icons.add),
+                        icon: const Icon(Icons.add),
                         itemBuilder: (context) => <PopupMenuEntry>[
                           PopupMenuItem(
-                            child: ListTile(
+                            child: const ListTile(
                               leading: WorkInterfaceIcon(
                                 origin: TaskSearchOrigin.redmine,
                                 padding: EdgeInsets.all(10),
@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
                             onTap: () => context.router.push(RedmineEditRoute()),
                           ),
                           PopupMenuItem(
-                            child: ListTile(
+                            child: const ListTile(
                               leading: WorkInterfaceIcon(
                                 origin: TaskSearchOrigin.erpNext,
                                 padding: EdgeInsets.all(10),
@@ -74,32 +74,32 @@ class SettingsPage extends StatelessWidget {
                         return ListTile(
                           title: Text(config.name),
                           onTap: () => context.router.push(RedmineEditRoute(initialConfig: config)),
-                          leading: WorkInterfaceIcon(
+                          leading: const WorkInterfaceIcon(
                             origin: TaskSearchOrigin.redmine,
                             borderRadius: 10,
                             padding: EdgeInsets.all(5),
                           ),
                           trailing: IconButton(
                             onPressed: () => context.read<WorkInterfaceCubit>().deleteConfig(config.id),
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                           ),
                         );
                       } else if (config is ErpNextConfig) {
                         return ListTile(
                           title: Text(config.name),
                           onTap: () => context.router.push(ErpNextEditRoute(initialConfig: config)),
-                          leading: WorkInterfaceIcon(
+                          leading: const WorkInterfaceIcon(
                             origin: TaskSearchOrigin.erpNext,
                             borderRadius: 10,
                             padding: EdgeInsets.all(5),
                           ),
                           trailing: IconButton(
                             onPressed: () => context.read<WorkInterfaceCubit>().deleteConfig(config.id),
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                           ),
                         );
                       } else {
-                        return ListTile(
+                        return const ListTile(
                           title: Text('Unknown Work Interface'),
                         );
                       }

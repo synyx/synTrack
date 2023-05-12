@@ -61,7 +61,7 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
           Expanded(
             child: TypeAheadField<TaskSearchResult>(
               suggestionsBoxController: _suggestionBoxController,
-              debounceDuration: Duration(milliseconds: 750),
+              debounceDuration: const Duration(milliseconds: 750),
               minCharsForSuggestions: 2,
               textFieldConfiguration: TextFieldConfiguration(
                 controller: _textController,
@@ -70,7 +70,7 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                       fontStyle: FontStyle.italic,
                       fontSize: 20,
                     ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: SearchIcon(),
                   border: OutlineInputBorder(),
                 ),
@@ -81,8 +81,8 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                 },
               ),
               noItemsFoundBuilder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     'No Tasks found! Try \$me or #[TicketID]',
                     style: TextStyle(
@@ -98,7 +98,7 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
               itemBuilder: (context, suggestion) {
                 return ListTile(
                   leading: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 25, maxHeight: 25, minWidth: 25, minHeight: 25),
+                    constraints: const BoxConstraints(maxWidth: 25, maxHeight: 25, minWidth: 25, minHeight: 25),
                     child: WorkInterfaceIcon(origin: suggestion.origin),
                   ),
                   title: Text(suggestion.displayText),

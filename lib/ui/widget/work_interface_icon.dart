@@ -34,7 +34,7 @@ class WorkInterfaceIcon extends StatelessWidget {
       case TaskSearchOrigin.erpNext:
         return Image.asset('assets/erpnext_logo.png');
       case TaskSearchOrigin.latestBookings:
-        return Icon(Icons.history);
+        return const Icon(Icons.history);
       default:
         return Container();
     }

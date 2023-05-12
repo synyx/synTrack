@@ -20,7 +20,7 @@ class TimeEntryDeleteButton extends StatelessWidget {
     }
 
     return TextButton(
-      child: Icon(
+      child: const Icon(
         Icons.delete,
         color: Colors.grey,
       ),

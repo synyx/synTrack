@@ -27,7 +27,7 @@ class TimeEntryBookingButton extends StatelessWidget {
       );
     }
 
-    return CircularProgressIndicator();
+    return const CircularProgressIndicator();
   }
 
   void _bookOrDeleteBooking(BuildContext context, TimeEntry entry) async {
