@@ -37,9 +37,9 @@ class TrackPage extends StatelessWidget {
       floatingActionButton:
           context.watch<TimeTrackingCubit>().state.start != null && SizerUtil.deviceType == DeviceType.mobile
               ? FloatingActionButton(
-                  child: const Icon(Icons.stop),
                   backgroundColor: Colors.red,
                   onPressed: () => context.read<TimeTrackingCubit>().stop(),
+                  child: const Icon(Icons.stop),
                 )
               : FloatingActionButton(
                   child: const Icon(Icons.book),
