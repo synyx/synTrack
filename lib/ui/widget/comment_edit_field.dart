@@ -2,34 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syntrack/cubit/time_tracking_cubit.dart';
 
-class CommentEditField extends StatelessWidget {
+class CommentEditField extends StatefulWidget {
   const CommentEditField({Key? key}) : super(key: key);
 
   @override
+  State<CommentEditField> createState() => _CommentEditFieldState();
+}
+
+class _CommentEditFieldState extends State<CommentEditField> {
+  final _controller = TextEditingController();
+  final _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      _controller.text = getInitialComment(context);
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: getInitialComment(context),
-      autofocus: true,
-      style: DefaultTextStyle.of(context).style.copyWith(
-            fontSize: 20,
+    return SearchBar(
+      focusNode: _focusNode,
+      controller: _controller,
+      trailing: [
+        IconButton(
+          onPressed: () {
+            _controller.clear();
+            context.read<TimeTrackingCubit>().setComment('');
+          },
+          icon: const Icon(
+            Icons.close,
           ),
-      decoration: InputDecoration(
-        hintText: 'Comment',
-        border: const OutlineInputBorder(),
-        prefixIcon: Container(
-          constraints: const BoxConstraints(maxWidth: 50, maxHeight: 50, minWidth: 50, minHeight: 50),
-          child: const Icon(Icons.access_time),
         ),
-        /*TODO: suffixIcon: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () => null,
-        ),*/
-      ),
+      ],
       onChanged: (value) {
         context.read<TimeTrackingCubit>().setComment(value);
-      },
-      contextMenuBuilder: (context, editableTextState) {
-        return AdaptiveTextSelectionToolbar.editableText(editableTextState: editableTextState);
       },
     );
   }
@@ -37,5 +48,12 @@ class CommentEditField extends StatelessWidget {
   String getInitialComment(BuildContext context) {
     final state = context.read<TimeTrackingCubit>().state;
     return state.comment;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 }

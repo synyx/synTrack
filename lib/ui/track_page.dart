@@ -18,12 +18,21 @@ class TrackPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('synTrack'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          'synTrack',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
             onPressed: () => context.router.push(const SettingsRoute()),
-            icon: const Icon(Icons.settings),
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ],
         bottom: const PreferredSize(
@@ -37,12 +46,11 @@ class TrackPage extends StatelessWidget {
       floatingActionButton:
           context.watch<TimeTrackingCubit>().state.start != null && SizerUtil.deviceType == DeviceType.mobile
               ? FloatingActionButton(
-                  backgroundColor: Colors.red,
                   onPressed: () => context.read<TimeTrackingCubit>().stop(),
                   child: const Icon(Icons.stop),
                 )
               : FloatingActionButton(
-                  child: const Icon(Icons.book),
+                  child: const Icon(Icons.bookmark_added),
                   onPressed: () => _bookAll(context),
                 ),
       body: const TimeEntriesList(),

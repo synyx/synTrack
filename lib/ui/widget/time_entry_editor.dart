@@ -33,34 +33,6 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  widget.entry.task?.name ?? '<NO TASK>',
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              if (widget.entry.task != null && widget.entry.bookingId == null) ...[
-                const SizedBox(width: 16),
-                TextButton.icon(
-                  onPressed: () => _deleteTask(context),
-                  icon: const Icon(Icons.delete),
-                  label: const Text('DELETE TASK'),
-                ),
-              ],
-              if (widget.entry.task == null) ...[
-                const SizedBox(width: 16),
-                TextButton.icon(
-                  onPressed: () => _showTaskSearchField(context),
-                  icon: const Icon(Icons.search),
-                  label: const Text('SEARCH TASK'),
-                ),
-              ],
-            ],
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ConstrainedBox(
@@ -76,6 +48,18 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
               ),
             ),
           ),
+          const SizedBox(height: 16),
+          if (widget.entry.task != null && widget.entry.bookingId == null)
+            Chip(
+              label: Text('Task: ${widget.entry.task?.name}'),
+              onDeleted: () => _deleteTask(context),
+            ),
+          if (widget.entry.task == null)
+            FilledButton.icon(
+              onPressed: () => _showTaskSearchField(context),
+              icon: const Icon(Icons.search),
+              label: const Text('Search Task'),
+            ),
           const SizedBox(height: 16),
           const Text('Date:'),
           DateSelector(
@@ -129,6 +113,7 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
           title: const Text('Search Task'),
           content: ConstrainedBox(
             constraints: const BoxConstraints.expand(
@@ -142,8 +127,8 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
                       widget.entry.id,
                       widget.entry.rebuild(
                         (b) => b
-                          ..task = suggestion.task.toBuilder()
-                          ..activity = suggestion.task.availableActivities[0].toBuilder(),
+                          ..task = suggestion.task?.toBuilder()
+                          ..activity = suggestion.task?.availableActivities[0].toBuilder(),
                       ),
                     );
 

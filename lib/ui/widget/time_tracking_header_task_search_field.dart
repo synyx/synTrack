@@ -17,15 +17,19 @@ class TaskTrackingHeaderTaskSearchField extends StatelessWidget {
       autofocus: false,
       onSuggestionSelected: (suggestion) {
         final task = suggestion.task;
-        final activity = suggestion.activity ?? task.availableActivities[0];
+        final activity = suggestion.activity ?? task?.availableActivities[0];
         final suggestionComment = suggestion.comment;
 
         final cubit = context.read<TimeTrackingCubit>();
         cubit.track(
           updates: (b) {
-            b.comment = suggestionComment ?? b.comment;
-            b.activity = activity.toBuilder();
-            b.task = task.toBuilder();
+            b.comment = b.comment == null
+                ? suggestionComment
+                : b.comment!.trim().isEmpty
+                    ? suggestionComment
+                    : b.comment;
+            b.activity = activity?.toBuilder();
+            b.task = task?.toBuilder();
           },
           setTimeToNow: !cubit.state.isTracking,
           stopCurrent: !cubit.state.isTracking,

@@ -16,10 +16,9 @@ class TimeEntryBookingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!isBooking(context)) {
-      return TextButton(
-        child: Icon(
-          Icons.book,
-          color: entry.bookingId == null ? Colors.red : Colors.green,
+      return IconButton.filled(
+        icon: Icon(
+          entry.bookingId == null ? Icons.bookmark : Icons.bookmark_added,
         ),
         onPressed: () {
           _bookOrDeleteBooking(context, entry);

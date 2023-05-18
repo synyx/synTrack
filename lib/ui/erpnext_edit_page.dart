@@ -30,6 +30,8 @@ class _ErpNextEditPageState extends State<ErpNextEditPage> {
       appBar: AppBar(
         title: const Text('ERPNext'),
         centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Theme.of(context).colorScheme.onSecondary,
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save),

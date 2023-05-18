@@ -34,12 +34,17 @@ class TimeEntryActions extends StatelessWidget {
             entry: entry,
           ),
         if (entry.task != null)
-          TimeEntryBookingButton(
-            entry: entry,
-            onBooked: onBooked,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TimeEntryBookingButton(
+              entry: entry,
+              onBooked: onBooked,
+            ),
           ),
-        TextButton(
-          child: const Icon(Icons.play_arrow),
+        IconButton.filled(
+          icon: const Icon(
+            Icons.play_arrow,
+          ),
           onPressed: () {
             onTrack?.call();
             context.read<TimeTrackingCubit>().track(
@@ -51,9 +56,12 @@ class TimeEntryActions extends StatelessWidget {
           },
         ),
         if (entry.bookingId == null)
-          TimeEntryDeleteButton(
-            entry: entry,
-            onDelete: onDelete,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TimeEntryDeleteButton(
+              entry: entry,
+              onDelete: onDelete,
+            ),
           ),
         PopupMenuButton(
           itemBuilder: (context) => <PopupMenuEntry>[
@@ -156,7 +164,7 @@ class TimeEntryActions extends StatelessWidget {
               onTap: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) async {
                   final timeEntriesCubit = context.read<TimeEntriesCubit>();
-                  
+
                   final confirm = await showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
