@@ -26,6 +26,7 @@ class _CommentEditFieldState extends State<CommentEditField> {
   @override
   Widget build(BuildContext context) {
     return SearchBar(
+      hintText: 'Comment',
       focusNode: _focusNode,
       controller: _controller,
       trailing: [

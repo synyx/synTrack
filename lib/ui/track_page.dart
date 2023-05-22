@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syntrack/cubit/booking_cubit.dart';
 import 'package:syntrack/cubit/time_entries_cubit.dart';
+import 'package:syntrack/cubit/time_entries_filter_cubit.dart';
 import 'package:syntrack/cubit/time_tracking_cubit.dart';
 import 'package:syntrack/exception/work_interface_not_found.dart';
 import 'package:syntrack/router.gr.dart';
+import 'package:syntrack/ui/widget/time_entries_filter_bar.dart';
 import 'package:syntrack/ui/widget/time_entries_list.dart';
 import 'package:syntrack/ui/widget/time_tracking_header.dart';
 
@@ -56,28 +58,19 @@ class TrackPage extends StatelessWidget {
                   onPressed: () => _bookAll(context),
                 ),
       body: const TimeEntriesList(),
-      /*floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-      bottomNavigationBar: BottomAppBar(
-        // TODO: search and filter
-        child: Row(
-          children: [
-            IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),*/
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      bottomNavigationBar: const TimeEntriesFilterBar(),
     );
   }
 
   _bookAll(BuildContext context) async {
     try {
       final notBooked = context.read<TimeEntriesCubit>().state.where((element) => element.bookingId == null).toList();
+      final notBookedFiltered = context.read<TimeEntriesFilterCubit>().filter(notBooked);
+
       await context.read<BookingCubit>().bookMany(
             context,
-            notBooked,
+            notBookedFiltered.toList(),
           );
     } on WorkInterfaceNotFound {
       ScaffoldMessenger.of(context).showSnackBar(

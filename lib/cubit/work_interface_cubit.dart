@@ -110,4 +110,16 @@ class WorkInterfaceCubit extends HydratedCubit<WorkInterfaceConfigs> {
             })
         .firstWhereOrNull((element) => element != null);
   }
+
+  String getNameFor(dynamic workInterface) => switch (workInterface) {
+        ErpNextConfig() => workInterface.name,
+        RedmineConfig() => workInterface.name,
+        _ => '',
+      };
+
+  String getIdFor(dynamic workInterface) => switch (workInterface) {
+        ErpNextConfig() => workInterface.id,
+        RedmineConfig() => workInterface.id,
+        _ => '',
+      };
 }

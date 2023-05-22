@@ -6,6 +6,7 @@ import 'package:isoweek/isoweek.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:syntrack/cubit/booking_cubit.dart';
 import 'package:syntrack/cubit/time_entries_cubit.dart';
+import 'package:syntrack/cubit/time_entries_filter_cubit.dart';
 import 'package:syntrack/ui/widget/time_entry_list_tile.dart';
 import 'package:syntrack/util/date_time_extension.dart';
 
@@ -17,8 +18,9 @@ class TimeEntriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final allEntries = context.watch<TimeEntriesCubit>().state;
+    final filteredQueries = context.watch<TimeEntriesFilterCubit>().filter(allEntries);
 
-    final entriesByWeek = groupBy(allEntries, (entry) => Week.fromDate(entry.start.startOfDay));
+    final entriesByWeek = groupBy(filteredQueries, (entry) => Week.fromDate(entry.start.startOfDay));
 
     return CustomScrollView(
       slivers: entriesByWeek.entries.map((mapEntry) {

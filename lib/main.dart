@@ -11,6 +11,7 @@ import 'package:syntrack/cubit/booking_cubit.dart';
 import 'package:syntrack/cubit/theme_mode_cubit.dart';
 import 'package:syntrack/cubit/task_search_cubit.dart';
 import 'package:syntrack/cubit/time_entries_cubit.dart';
+import 'package:syntrack/cubit/time_entries_filter_cubit.dart';
 import 'package:syntrack/cubit/time_tracking_cubit.dart';
 import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/repository/data/latest_bookings_data_provider.dart';
@@ -76,6 +77,9 @@ class SynTrack extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => TimeEntriesCubit(),
+          ),
+          BlocProvider(
+            create: (context) => TimeEntriesFilterCubit(),
           ),
           BlocProvider(
             lazy: false,

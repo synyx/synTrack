@@ -14,10 +14,10 @@ abstract class TimeEntriesFilter implements Built<TimeEntriesFilter, TimeEntries
   DateTime? get filterEnd;
   Duration? get filterDuration;
   bool? get filterBooked;
-  int? get filterWeekday;
+  Set<int?> get filterWeekday;
   Task? get filterTask;
-  List<String?> get filterWorkInterfaceId;
-  List<String?> get filterActivityNames;
+  Set<String?> get filterWorkInterfaceId;
+  Set<String?> get filterActivityNames;
 
   TimeEntriesFilter._();
 

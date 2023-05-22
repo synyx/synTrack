@@ -4,10 +4,13 @@ import 'package:syntrack/cubit/time_entries_filter.dart';
 import 'package:syntrack/model/common/time_entry.dart';
 import 'package:syntrack/util/date_time_extension.dart';
 
-const _durationFilterTolerance = 300;
-
 class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
-  TimeEntriesFilterCubit() : super(TimeEntriesFilterBuilder().build());
+  TimeEntriesFilterCubit()
+      : super((TimeEntriesFilterBuilder()
+              ..filterActivityNames = {}
+              ..filterWorkInterfaceId = {}
+              ..filterWeekday = {})
+            .build());
 
   Iterable<TimeEntry> filter(List<TimeEntry> timeEntries) {
     final TimeEntriesFilter(
@@ -27,7 +30,7 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
         filterBooked == null &&
         filterTask == null &&
         filterDuration == null &&
-        filterWeekday == null &&
+        filterWeekday.isEmpty &&
         filterWorkInterfaceId.isEmpty &&
         filterStart == null &&
         filterEnd == null) {
@@ -36,7 +39,11 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
 
     return timeEntries
         .where(
-          (element) => query != null ? element.comment.trim().toLowerCase().contains(query) : true,
+          (element) => query != null
+              ? '${element.comment.trim()}${element.task?.name ?? '<NO TASK>'}${element.activity?.name ?? '<NO ACTIVITY>'}'
+                  .toLowerCase()
+                  .contains(query.trim().toLowerCase())
+              : true,
         )
         .where(
           (element) => filterActivityNames.isNotEmpty ? filterActivityNames.contains(element.activity?.name) : true,
@@ -52,7 +59,7 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
           (element) => filterTask != null ? element.task?.id == filterTask.id : true,
         )
         .where(
-          (element) => filterWeekday != null ? element.start.weekday == filterWeekday : true,
+          (element) => filterWeekday.isNotEmpty ? filterWeekday.contains(element.start.weekday) : true,
         )
         .where(
           (element) =>
@@ -65,19 +72,43 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
           (element) => filterEnd != null ? element.end.startOfDay == filterEnd.startOfDay : true,
         )
         .where(
-          (element) => filterDuration != null
-              ? (element.duration.inSeconds - filterDuration.inSeconds).abs() <= _durationFilterTolerance
-              : true,
+          (element) => filterDuration != null ? filterDuration.inSeconds <= element.duration.inSeconds : true,
         );
   }
 
-  void debouncedQuery(String query) {
+  void debouncedFilters(Function(TimeEntriesFilterBuilder) updates) {
+    EasyDebounce.debounce('time_entries_filter_cubit.debouncedFilters', const Duration(milliseconds: 500), () {
+      setFilters(updates);
+    });
+  }
+
+  void setFilters(Function(TimeEntriesFilterBuilder) updates) {
+    emit(state.rebuild(updates));
+  }
+
+  void clearFilters() {
+    emit(state.rebuild((p0) => p0
+      ..filterActivityNames = const {}
+      ..filterBooked = null
+      ..filterTask = null
+      ..filterDuration = null
+      ..filterWeekday = const {}
+      ..filterWorkInterfaceId = const {}
+      ..filterStart = null
+      ..filterEnd = null));
+  }
+
+  void debouncedQuery(String? query) {
     EasyDebounce.debounce(
       'time_entries_filter_cubit.debouncedQuery',
       const Duration(milliseconds: 750),
       () {
-        emit(state.rebuild((state) => state..query = query));
+        immediateQuery(query);
       },
     );
+  }
+
+  void immediateQuery(String? query) {
+    emit(state.rebuild((state) => state..query = query));
   }
 }

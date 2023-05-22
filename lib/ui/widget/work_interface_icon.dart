@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syntrack/model/common/task_search_origin.dart';
+import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
+import 'package:syntrack/model/work/redmine/redmine_config.dart';
 
 class WorkInterfaceIcon extends StatelessWidget {
   final TaskSearchOrigin? origin;
@@ -12,6 +14,25 @@ class WorkInterfaceIcon extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.borderRadius = 0,
   }) : super(key: key);
+
+  factory WorkInterfaceIcon.fromConfig(
+    dynamic workInterfaceConfig, {
+    EdgeInsets padding = EdgeInsets.zero,
+    double borderRadius = 0,
+  }) =>
+      switch (workInterfaceConfig) {
+        ErpNextConfig() => WorkInterfaceIcon(
+            origin: TaskSearchOrigin.erpNext,
+            padding: padding,
+            borderRadius: borderRadius,
+          ),
+        RedmineConfig() => WorkInterfaceIcon(
+            origin: TaskSearchOrigin.redmine,
+            padding: padding,
+            borderRadius: borderRadius,
+          ),
+        _ => throw Exception('no work interface for $workInterfaceConfig'),
+      };
 
   @override
   Widget build(BuildContext context) {
