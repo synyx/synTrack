@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:collection/collection.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:syntrack/model/common/task_search_origin.dart';
 import 'package:syntrack/model/work/erpnext/erpnext_config.dart';
 import 'package:syntrack/model/work/redmine/redmine_config.dart';
 import 'package:syntrack/model/work/work_interface_configs.dart';
@@ -98,4 +100,26 @@ class WorkInterfaceCubit extends HydratedCubit<WorkInterfaceConfigs> {
       'data': jsonDecode(state.toJson()),
     };
   }
+
+  TaskSearchOrigin? getOriginFor(String workInterfaceId) {
+    return state.combinedConfigs
+        .map((element) => switch (element) {
+              ErpNextConfig() => element.id == workInterfaceId ? TaskSearchOrigin.erpNext : null,
+              RedmineConfig() => element.id == workInterfaceId ? TaskSearchOrigin.redmine : null,
+              _ => null,
+            })
+        .firstWhereOrNull((element) => element != null);
+  }
+
+  String getNameFor(dynamic workInterface) => switch (workInterface) {
+        ErpNextConfig() => workInterface.name,
+        RedmineConfig() => workInterface.name,
+        _ => '',
+      };
+
+  String getIdFor(dynamic workInterface) => switch (workInterface) {
+        ErpNextConfig() => workInterface.id,
+        RedmineConfig() => workInterface.id,
+        _ => '',
+      };
 }

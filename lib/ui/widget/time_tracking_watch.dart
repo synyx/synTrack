@@ -43,14 +43,24 @@ class _TimeTrackingWatchState extends State<TimeTrackingWatch> {
   Widget build(BuildContext context) {
     final state = context.watch<TimeTrackingCubit>().state;
 
-    return IgnorePointer(
-      ignoring: !state.isTracking,
-      child: InkWell(
-        onTap: () => _selectStartTime(context),
-        child: Text(
-          '$hours:$minutes:$seconds',
-          style: const TextStyle(
-            fontSize: 24,
+    return Container(
+      width: 130,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(1000),
+      ),
+      padding: const EdgeInsets.all(8),
+      child: IgnorePointer(
+        ignoring: !state.isTracking,
+        child: InkWell(
+          onTap: () => _selectStartTime(context),
+          child: Text(
+            '$hours:$minutes:$seconds',
+            style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+            ),
           ),
         ),
       ),

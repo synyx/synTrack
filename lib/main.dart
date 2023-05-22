@@ -8,8 +8,10 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syntrack/cubit/booking_cubit.dart';
+import 'package:syntrack/cubit/theme_mode_cubit.dart';
 import 'package:syntrack/cubit/task_search_cubit.dart';
 import 'package:syntrack/cubit/time_entries_cubit.dart';
+import 'package:syntrack/cubit/time_entries_filter_cubit.dart';
 import 'package:syntrack/cubit/time_tracking_cubit.dart';
 import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/repository/data/latest_bookings_data_provider.dart';
@@ -59,7 +61,6 @@ Future<void> createHydratedBoxBackup(Directory appDir, {int maxBackups = 10}) as
 }
 
 class SynTrack extends StatelessWidget {
-  static const primarySwatch = Colors.blue;
   final _appRouter = AppRouter();
 
   SynTrack({super.key});
@@ -72,7 +73,13 @@ class SynTrack extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
+            create: (context) => ThemeModeCubit(),
+          ),
+          BlocProvider(
             create: (context) => TimeEntriesCubit(),
+          ),
+          BlocProvider(
+            create: (context) => TimeEntriesFilterCubit(),
           ),
           BlocProvider(
             lazy: false,
@@ -112,9 +119,16 @@ class SynTrack extends StatelessWidget {
               ],
               title: 'synTrack',
               theme: ThemeData(
-                primarySwatch: primarySwatch,
-                useMaterial3: false,
+                brightness: Brightness.light,
+                useMaterial3: true,
+                colorSchemeSeed: const Color(0xFFFF5250),
               ),
+              darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                useMaterial3: true,
+                colorSchemeSeed: const Color(0xFF1923DC),
+              ),
+              themeMode: context.watch<ThemeModeCubit>().state,
               routerDelegate: _appRouter.delegate(),
               routeInformationParser: _appRouter.defaultRouteParser(),
             );

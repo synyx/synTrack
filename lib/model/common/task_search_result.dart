@@ -12,7 +12,7 @@ import 'package:syntrack/model/serializer/serializers.dart';
 part 'task_search_result.g.dart';
 
 abstract class TaskSearchResult implements Built<TaskSearchResult, TaskSearchResultBuilder> {
-  Task get task;
+  Task? get task;
   TaskSearchOrigin get origin;
   Activity? get activity;
   String? get comment;

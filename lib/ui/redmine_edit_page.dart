@@ -31,6 +31,8 @@ class _RedmineEditPageState extends State<RedmineEditPage> {
       appBar: AppBar(
         title: const Text('Redmine'),
         centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Theme.of(context).colorScheme.onSecondary,
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save),

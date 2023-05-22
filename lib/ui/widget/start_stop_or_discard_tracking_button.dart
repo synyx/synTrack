@@ -12,35 +12,32 @@ class StartStopOrDiscardTrackingButton extends StatelessWidget {
     return Row(
       children: [
         if (!isTracking)
-          ElevatedButton(
+          FilledButton.tonal(
             onPressed: () => context.read<TimeTrackingCubit>().track(),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.green),
-            ),
             child: const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.play_arrow),
+              child: Icon(
+                Icons.play_arrow,
+              ),
             ),
           ),
         if (isTracking)
-          ElevatedButton(
+          FilledButton.tonal(
             onPressed: () => context.read<TimeTrackingCubit>().stop(),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.red),
-            ),
             child: const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.stop),
+              child: Icon(
+                Icons.stop,
+              ),
             ),
           ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextButton(
+          child: IconButton(
+            color: Theme.of(context).colorScheme.onPrimary,
+            disabledColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
             onPressed: isTracking ? () => context.read<TimeTrackingCubit>().discard() : null,
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(Colors.grey),
-            ),
-            child: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
           ),
         ),
       ],

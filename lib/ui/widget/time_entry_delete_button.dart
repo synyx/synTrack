@@ -19,10 +19,9 @@ class TimeEntryDeleteButton extends StatelessWidget {
       throw Exception('invalid TimeEntry');
     }
 
-    return TextButton(
-      child: const Icon(
+    return IconButton.outlined(
+      icon: const Icon(
         Icons.delete,
-        color: Colors.grey,
       ),
       onPressed: () {
         onDelete?.call();

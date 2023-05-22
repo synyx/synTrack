@@ -15,17 +15,24 @@ class ActivitySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<Activity>(
-      onChanged: onSelect,
-      value: selectedActivity,
-      items: activities
-          .map(
-            (e) => DropdownMenuItem<Activity>(
-              value: e,
-              child: Text(e.name),
-            ),
-          )
-          .toList(),
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(1000),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+      child: DropdownButton<Activity>(
+        onChanged: onSelect,
+        value: selectedActivity,
+        items: activities
+            .map(
+              (e) => DropdownMenuItem<Activity>(
+                value: e,
+                child: Text(e.name),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

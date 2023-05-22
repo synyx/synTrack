@@ -35,6 +35,10 @@ dependencies:
       url: https://github.com/enoy19/flutter_typeahead.git
       ref: streamed
   path: ^1.8.3
+  easy_debounce: ^2.0.3
+  collection: ^1.17.1
+  isoweek: ^1.1.4
+  sliver_tools: ^0.2.10
 
 dev_dependencies:
   flutter_test:

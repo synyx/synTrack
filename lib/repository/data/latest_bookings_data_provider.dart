@@ -35,22 +35,24 @@ class LatestBookingsDataProvider extends WorkDataProvider<void> {
   Stream<TaskSearchResult> search(config, String query) async* {
     final tasks = <Task>{};
 
+    query = query.toLowerCase();
+
     yield* Stream.fromIterable(timeEntriesCubit.state).where(
       (timeEntry) {
-        return timeEntry.comment.toLowerCase().contains(query) ||
-            (timeEntry.task != null && timeEntry.task!.name.toLowerCase().contains(query));
+        return timeEntry.comment.trim().toLowerCase().contains(query) ||
+            (timeEntry.task != null && timeEntry.task!.name.trim().toLowerCase().contains(query));
       },
-    ).where((event) {
+    ).where((timeEntry) {
       // filter out tasks that are already in the list
-      final contains = !tasks.contains(event.task);
-      if (event.task != null) {
-        tasks.add(event.task!);
+      final contains = !tasks.contains(timeEntry.task);
+      if (timeEntry.task != null) {
+        tasks.add(timeEntry.task!);
       }
-      return event.task == null || contains;
+      return timeEntry.task == null || contains;
     }).map(
       (e) => TaskSearchResult(
         (b) => b
-          ..displayText = '${e.comment}${e.task != null ? ' - ' : ''}${e.task?.name}'
+          ..displayText = e.comment
           ..origin = TaskSearchOrigin.latestBookings
           ..activity = e.activity?.toBuilder()
           ..comment = e.comment

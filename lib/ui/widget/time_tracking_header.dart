@@ -27,7 +27,6 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -37,38 +36,24 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
             if (trackingState.isTracking)
               Container(
                 padding: EdgeInsets.all(padding),
-                width: double.infinity,
                 child: Row(
                   children: [
                     if (trackingState.task == null && trackingState.isTracking)
                       Padding(
                         padding: EdgeInsets.only(right: padding),
-                        child: TextButton.icon(
+                        child: FilledButton.tonalIcon(
                           onPressed: () => setState(() {
                             _searchingTask = !_searchingTask;
                           }),
                           icon: Icon(_searchingTask ? Icons.close : Icons.search),
-                          label: Text(_searchingTask ? 'CANCEL SEARCH' : 'SEARCH TASK'),
+                          label: Text(_searchingTask ? 'Cancel search' : 'Search Task'),
                         ),
                       ),
                     if (trackingState.task != null)
-                      Padding(
-                        padding: EdgeInsets.only(right: padding),
-                        child: TextButton.icon(
-                          onPressed: () => context.read<TimeTrackingCubit>().removeTask(),
-                          icon: const Icon(Icons.delete),
-                          label: const Text('REMOVE TASK'),
-                        ),
+                      Chip(
+                        label: Text('Task: ${trackingState.task?.name}'),
+                        onDeleted: () => context.read<TimeTrackingCubit>().removeTask(),
                       ),
-                    Expanded(
-                      child: Text(
-                        trackingState.task != null ? 'Task: ${trackingState.task?.name}' : 'Task: <NO TASK>',
-                        style: const TextStyle(),
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -85,38 +70,29 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
                           },
                         ),
                 ),
-                SizedBox(width: spacing),
-                if (trackingState.isTracking &&
-                    trackingState.task != null &&
-                    SizerUtil.deviceType != DeviceType.mobile) ...[
-                  ActivitySelector(
-                    selectedActivity: trackingState.activity,
-                    activities: trackingState.task!.availableActivities.toList(),
-                    onSelect: context.read<TimeTrackingCubit>().setActivity,
-                  ),
+                if (trackingState.isTracking) ...[
                   SizedBox(width: spacing),
-                ],
-                Container(
-                  constraints: const BoxConstraints(minWidth: 100),
-                  child: const Center(
-                    child: TimeTrackingWatch(),
+                  if (trackingState.isTracking &&
+                      trackingState.task != null &&
+                      SizerUtil.deviceType != DeviceType.mobile) ...[
+                    ActivitySelector(
+                      selectedActivity: trackingState.activity,
+                      activities: trackingState.task!.availableActivities.toList(),
+                      onSelect: context.read<TimeTrackingCubit>().setActivity,
+                    ),
+                    SizedBox(width: spacing),
+                  ],
+                  Container(
+                    constraints: const BoxConstraints(minWidth: 100),
+                    child: const Center(
+                      child: TimeTrackingWatch(),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                if (SizerUtil.deviceType != DeviceType.mobile) const StartStopOrDiscardTrackingButton(),
+                  const SizedBox(width: 16),
+                  if (SizerUtil.deviceType != DeviceType.mobile) const StartStopOrDiscardTrackingButton(),
+                ],
               ],
             ),
-            SizedBox(width: spacing),
-            /*Row(
-              children: [
-                Expanded(
-                  child: context.watch<TimeTrackingCubit>().state is TimeTrackingIdle
-                      ? TaskSearchTextField()
-                      : CommentEditField(),
-                ),
-                SizedBox(width: 16),              
-              ],
-            ),*/
           ],
         ),
       ),
