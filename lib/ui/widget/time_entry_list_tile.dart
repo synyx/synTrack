@@ -10,6 +10,7 @@ import 'package:syntrack/ui/widget/time_entry_actions.dart';
 import 'package:syntrack/ui/widget/time_entry_comment_edit_field.dart';
 import 'package:syntrack/ui/widget/time_entry_editor.dart';
 import 'package:syntrack/ui/widget/time_selector.dart';
+import 'package:syntrack/util/date_time_extension.dart';
 
 class TimeEntryListTile extends StatefulWidget {
   final TimeEntry entry;
@@ -44,10 +45,12 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
   }
 
   Widget _buildTile(BuildContext context) {
+    final entry = widget.entry;
+
     return InkWell(
       onTap: () => _showDetails(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -59,14 +62,14 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DateSelector(
-                      entry: widget.entry,
+                      entry: entry,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                       readOnly: SizerUtil.deviceType == DeviceType.mobile,
                     ),
                     Text(
-                        '${(widget.entry.end.difference(widget.entry.start).inMinutes / 60).toStringAsFixed(2)}h ${widget.entry.activity?.name ?? '<NO ACTIVITY>'}'),
+                        '${(entry.end.difference(entry.start).inMinutes / 60).toStringAsFixed(2)}h ${entry.activity?.name ?? '<NO ACTIVITY>'}'),
                   ],
                 ),
               ),
@@ -76,16 +79,15 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TimeEntryCommentEditField(
-                    entry: widget.entry,
+                    entry: entry,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                      widget.entry.task != null ? '#${widget.entry.task!.id} ${widget.entry.task!.name}' : '<NO TASK>'),
+                  Text(entry.task != null ? '#${entry.task!.id} ${entry.task!.name}' : '<NO TASK>'),
                   TimeSelector(
-                    entry: widget.entry,
+                    entry: entry,
                     readOnly: SizerUtil.deviceType == DeviceType.mobile,
                   ),
                 ],
@@ -100,7 +102,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: TimeEntryActions(
-                  entry: widget.entry,
+                  entry: entry,
                   onBooked: (e) {
                     setState(() {
                       _errorMessage = e?.toString();

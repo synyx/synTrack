@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syntrack/model/common/task_search_origin.dart';
 
 class WorkInterfaceIcon extends StatelessWidget {
-  final TaskSearchOrigin origin;
+  final TaskSearchOrigin? origin;
   final double borderRadius;
   final EdgeInsets padding;
 
@@ -15,6 +15,8 @@ class WorkInterfaceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (origin == null) return Container();
+
     final icon = _getIcon();
 
     return Padding(

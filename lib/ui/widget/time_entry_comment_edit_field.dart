@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syntrack/cubit/time_entries_cubit.dart';
+import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/model/common/time_entry.dart';
+import 'package:syntrack/ui/widget/work_interface_icon.dart';
 
 class TimeEntryCommentEditField extends StatelessWidget {
   final TimeEntry entry;
@@ -21,12 +23,20 @@ class TimeEntryCommentEditField extends StatelessWidget {
     if (entry.bookingId != null || readOnly) {
       return Row(
         children: [
+          if (entry.task != null)
+            Container(
+              width: 24,
+              height: 24,
+              padding: const EdgeInsets.only(right: 4),
+              child: WorkInterfaceIcon(
+                origin: context.read<WorkInterfaceCubit>().getOriginFor(entry.task!.workInterfaceId),
+              ),
+            ),
           if (SizerUtil.deviceType == DeviceType.mobile)
             Padding(
               padding: const EdgeInsets.only(right: 4.0),
               child: Icon(
-                Icons.book,
-                color: entry.bookingId != null ? Colors.green : Colors.red,
+                entry.bookingId == null ? Icons.bookmark : Icons.bookmark_added,
               ),
             ),
           Expanded(

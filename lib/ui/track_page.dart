@@ -36,7 +36,7 @@ class TrackPage extends StatelessWidget {
           ),
         ],
         bottom: const PreferredSize(
-          preferredSize: Size(double.infinity, 120),
+          preferredSize: Size(double.infinity, 110),
           child: Padding(
             padding: EdgeInsets.all(4.0),
             child: TimeTrackingHeader(),
@@ -46,14 +46,29 @@ class TrackPage extends StatelessWidget {
       floatingActionButton:
           context.watch<TimeTrackingCubit>().state.start != null && SizerUtil.deviceType == DeviceType.mobile
               ? FloatingActionButton(
+                  // backgroundColor: Theme.of(context).colorScheme.onPrimary,
                   onPressed: () => context.read<TimeTrackingCubit>().stop(),
                   child: const Icon(Icons.stop),
                 )
               : FloatingActionButton(
-                  child: const Icon(Icons.bookmark_added),
+                  // backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                  child: const Icon(Icons.bookmark),
                   onPressed: () => _bookAll(context),
                 ),
       body: const TimeEntriesList(),
+      /*floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      bottomNavigationBar: BottomAppBar(
+        // TODO: search and filter
+        child: Row(
+          children: [
+            IconButton(
+              tooltip: 'Search',
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),*/
     );
   }
 
@@ -66,9 +81,14 @@ class TrackPage extends StatelessWidget {
           );
     } on WorkInterfaceNotFound {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Work Interface/s not found'),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(
+            'Work Interface/s not found',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onError,
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
         ),
       );
     }

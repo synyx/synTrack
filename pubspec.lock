@@ -194,7 +194,7 @@ packages:
     source: hosted
     version: "4.4.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: "4a07be6cb69c84d677a6c3096fcf960cc3285a8330b4603e0d463d15d9bd934c"
@@ -486,6 +486,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  isoweek:
+    dependency: "direct main"
+    description:
+      name: isoweek
+      sha256: "7df2c91f82c8368e414b90e6872c1dab3cccb1173c761faf3724827ec840608b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.4"
   js:
     dependency: transitive
     description:
@@ -731,6 +739,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_tools:
+    dependency: "direct main"
+    description:
+      name: sliver_tools
+      sha256: ccdc502098a8bfa07b3ec582c282620031481300035584e1bb3aca296a505e8c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.10"
   source_gen:
     dependency: transitive
     description:
