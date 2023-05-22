@@ -5,13 +5,14 @@ import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/model/work/redmine/redmine_config.dart';
 import 'package:syntrack/ui/widget/form/checkbox_list_tile_form_field.dart';
 
+@RoutePage()
 class RedmineEditPage extends StatefulWidget {
   final RedmineConfig? initialConfig;
 
   const RedmineEditPage({Key? key, this.initialConfig}) : super(key: key);
 
   @override
-  _RedmineEditPageState createState() => _RedmineEditPageState();
+  State<RedmineEditPage> createState() => _RedmineEditPageState();
 }
 
 class _RedmineEditPageState extends State<RedmineEditPage> {
@@ -28,11 +29,11 @@ class _RedmineEditPageState extends State<RedmineEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Redmine'),
+        title: const Text('Redmine'),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
         onPressed: () => _save(context),
       ),
       body: Form(
@@ -41,36 +42,36 @@ class _RedmineEditPageState extends State<RedmineEditPage> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Container(
-              constraints: BoxConstraints(maxWidth: 500),
+              constraints: const BoxConstraints(maxWidth: 500),
               child: Column(
                 children: [
                   TextFormField(
                     initialValue: redmineConfig.name,
-                    decoration: InputDecoration(hintText: 'Name'),
+                    decoration: const InputDecoration(hintText: 'Name'),
                     validator: (value) => value == null || value.trim().isEmpty ? 'Ungültiger Wert' : null,
                     onSaved: (value) => redmineConfig.name = value,
                   ),
                   TextFormField(
                     initialValue: redmineConfig.baseUrl,
-                    decoration: InputDecoration(hintText: 'Base URL'),
+                    decoration: const InputDecoration(hintText: 'Base URL'),
                     validator: (value) => value == null || value.trim().isEmpty ? 'invalid value' : null,
                     onSaved: (value) => redmineConfig.baseUrl = value,
                   ),
                   TextFormField(
                     initialValue: redmineConfig.apiKey,
-                    decoration: InputDecoration(hintText: 'API-Key'),
+                    decoration: const InputDecoration(hintText: 'API-Key'),
                     validator: (value) => value == null || value.trim().isEmpty ? 'invalid value' : null,
                     onSaved: (value) => redmineConfig.apiKey = value,
                   ),
                   TextFormField(
                     initialValue: redmineConfig.projectFilters,
-                    decoration: InputDecoration(hintText: 'Project filters (comma separated)'),
+                    decoration: const InputDecoration(hintText: 'Project filters (comma separated)'),
                     onSaved: (value) => redmineConfig.projectFilters = value,
                   ),
                   CheckboxListTileFormField(
                     initialValue: redmineConfig.roundUp ?? true,
                     onSaved: (value) => redmineConfig.roundUp = value,
-                    title: Text('Round up to 15 Minutes'),
+                    title: const Text('Round up to 15 Minutes'),
                   ),
                 ],
               ),

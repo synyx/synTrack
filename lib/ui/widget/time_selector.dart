@@ -54,6 +54,9 @@ class _TimeSelector extends StatelessWidget {
           onTap: entry.bookingId != null || readOnly
               ? null
               : () async {
+                  final theme = Theme.of(context);
+                  final scaffoldMessenger = ScaffoldMessenger.of(context);
+                  final timeEntriesCubit = context.read<TimeEntriesCubit>();
                   final start = entry.start.toLocal();
                   final end = entry.end.toLocal();
 
@@ -67,21 +70,21 @@ class _TimeSelector extends StatelessWidget {
                         DateTime(start.year, start.month, start.day, newStartTime.hour, newStartTime.minute).toUtc();
 
                     if (newStart.isAfter(end)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessenger.showSnackBar(
                         SnackBar(
-                          content: Text('Invalid start time'),
-                          backgroundColor: Theme.of(context).colorScheme.error,
+                          content: const Text('Invalid start time'),
+                          backgroundColor: theme.colorScheme.error,
                         ),
                       );
                       throw Exception('invalid time: start after end');
                     }
 
-                    context.read<TimeEntriesCubit>().update(
-                          entry.id,
-                          entry.rebuild(
-                            (b) => b..start = newStart,
-                          ),
-                        );
+                    timeEntriesCubit.update(
+                      entry.id,
+                      entry.rebuild(
+                        (b) => b..start = newStart,
+                      ),
+                    );
                   }
                 },
           child: Text(
@@ -97,6 +100,10 @@ class _TimeSelector extends StatelessWidget {
           onTap: entry.bookingId != null || readOnly
               ? null
               : () async {
+                  final theme = Theme.of(context);
+                  final scaffoldMessenger = ScaffoldMessenger.of(context);
+                  final timeEntriesCubit = context.read<TimeEntriesCubit>();
+
                   final start = entry.start.toLocal();
                   final end = entry.end.toLocal();
 
@@ -109,16 +116,16 @@ class _TimeSelector extends StatelessWidget {
                     final newEnd = DateTime(end.year, end.month, end.day, newEndTime.hour, newEndTime.minute).toUtc();
 
                     if (start.isAfter(newEnd)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessenger.showSnackBar(
                         SnackBar(
-                          content: Text('Invalid end time'),
-                          backgroundColor: Theme.of(context).colorScheme.error,
+                          content: const Text('Invalid end time'),
+                          backgroundColor: theme.colorScheme.error,
                         ),
                       );
                       throw Exception('invalid time: start after end');
                     }
 
-                    context.read<TimeEntriesCubit>().update(
+                    timeEntriesCubit.update(
                           entry.id,
                           entry.rebuild(
                             (b) => b..end = newEnd,

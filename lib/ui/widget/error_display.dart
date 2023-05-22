@@ -23,7 +23,7 @@ class ErrorDisplay extends StatelessWidget {
           ),
         ),
         if (!dense) ...[
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Flexible(
             child: Text(
               'Fehler: $errorMessage',

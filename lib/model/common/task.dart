@@ -11,7 +11,7 @@ import 'package:syntrack/model/serializer/serializers.dart';
 part 'task.g.dart';
 
 abstract class Task implements Built<Task, TaskBuilder> {
-  static const NO_WORK_INTERFACE_ID = '<Work Interface ID Missing>';
+  static const noWorkInterfaceId = '<Work Interface ID Missing>';
 
   String get workInterfaceId;
   String get id;

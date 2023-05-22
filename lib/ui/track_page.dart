@@ -10,6 +10,7 @@ import 'package:syntrack/router.gr.dart';
 import 'package:syntrack/ui/widget/time_entries_list.dart';
 import 'package:syntrack/ui/widget/time_tracking_header.dart';
 
+@RoutePage()
 class TrackPage extends StatelessWidget {
   const TrackPage({Key? key}) : super(key: key);
 
@@ -17,18 +18,18 @@ class TrackPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('synTrack'),
+        title: const Text('synTrack'),
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => context.router.push(SettingsRoute()),
-            icon: Icon(Icons.settings),
+            onPressed: () => context.router.push(const SettingsRoute()),
+            icon: const Icon(Icons.settings),
           ),
         ],
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
           preferredSize: Size(double.infinity, 120),
           child: Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: EdgeInsets.all(4.0),
             child: TimeTrackingHeader(),
           ),
         ),
@@ -36,15 +37,15 @@ class TrackPage extends StatelessWidget {
       floatingActionButton:
           context.watch<TimeTrackingCubit>().state.start != null && SizerUtil.deviceType == DeviceType.mobile
               ? FloatingActionButton(
-                  child: Icon(Icons.stop),
                   backgroundColor: Colors.red,
                   onPressed: () => context.read<TimeTrackingCubit>().stop(),
+                  child: const Icon(Icons.stop),
                 )
               : FloatingActionButton(
-                  child: Icon(Icons.book),
+                  child: const Icon(Icons.book),
                   onPressed: () => _bookAll(context),
                 ),
-      body: TimeEntriesList(),
+      body: const TimeEntriesList(),
     );
   }
 
@@ -57,7 +58,7 @@ class TrackPage extends StatelessWidget {
           );
     } on WorkInterfaceNotFound {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Work Interface/s not found'),
           backgroundColor: Colors.red,
         ),

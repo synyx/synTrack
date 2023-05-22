@@ -6,13 +6,13 @@
         {
             "label": "gen:build_runner",
             "type": "shell",
-            "command": "flutter pub run build_runner build --delete-conflicting-outputs",
+            "command": "dart run build_runner build --delete-conflicting-outputs",
             "problemMatcher": []
         },
         {
             "label": "gen:build_runner:watch",
             "type": "shell",
-            "command": "flutter pub run build_runner watch --delete-conflicting-outputs",
+            "command": "dart run build_runner watch --delete-conflicting-outputs",
             "problemMatcher": []
         },
     ]

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syntrack/model/common/task_search_origin.dart';
-import 'package:syntrack/model/common/task_search_result.dart';
 
 class WorkInterfaceIcon extends StatelessWidget {
   final TaskSearchOrigin origin;
@@ -34,7 +33,7 @@ class WorkInterfaceIcon extends StatelessWidget {
       case TaskSearchOrigin.erpNext:
         return Image.asset('assets/erpnext_logo.png');
       case TaskSearchOrigin.latestBookings:
-        return Icon(Icons.history);
+        return const Icon(Icons.history);
       default:
         return Container();
     }

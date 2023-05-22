@@ -34,7 +34,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
       return IgnorePointer(
         ignoring: true,
         child: ColorFiltered(
-          colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
           child: listTile,
         ),
       );
@@ -52,7 +52,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              constraints: BoxConstraints(minWidth: 150),
+              constraints: const BoxConstraints(minWidth: 150),
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Column(
@@ -60,7 +60,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                   children: [
                     DateSelector(
                       entry: widget.entry,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                       readOnly: SizerUtil.deviceType == DeviceType.mobile,
@@ -77,7 +77,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                 children: [
                   TimeEntryCommentEditField(
                     entry: widget.entry,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -103,7 +103,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                   entry: widget.entry,
                   onBooked: (e) {
                     setState(() {
-                      _errorMessage = e != null ? e.toString() : null;
+                      _errorMessage = e?.toString();
                     });
                   },
                 ),
@@ -117,21 +117,21 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
   void _showDetails(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),
       isScrollControlled: true,
       builder: (context) => BlocBuilder<TimeEntriesCubit, List<TimeEntry>>(
         builder: (context, state) {
           try {
-            final entry = state.firstWhere((element) => element.id == this.widget.entry.id);
+            final entry = state.firstWhere((element) => element.id == widget.entry.id);
             return Container(
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
               child: TimeEntryEditor(entry: entry),
             );
           } catch (e) {
             return Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

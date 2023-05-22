@@ -94,16 +94,13 @@ class TimeTrackingCubit extends HydratedCubit<TimeTrackingState> {
     try {
       return TimeTrackingState.fromJson(jsonEncode(json));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return TimeTrackingState.idle();
     }
   }
 
   @override
   Map<String, dynamic>? toJson(TimeTrackingState state) {
-    if (state is TimeTrackingState) {
-      return jsonDecode(state.toJson());
-    }
-    return <String, dynamic>{};
+    return jsonDecode(state.toJson());
   }
 }

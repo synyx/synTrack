@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 class TimeEntriesCubit extends HydratedCubit<List<TimeEntry>> {
   TimeEntriesCubit() : super([]);
 
-  final uuid = Uuid();
+  final uuid = const Uuid();
 
   void newTrackedTimeEntry({
     required Task? task,
@@ -57,14 +57,14 @@ class TimeEntriesCubit extends HydratedCubit<List<TimeEntry>> {
   void copyToNextDay(TimeEntry entry) {
     copyTo(
       entry,
-      (entry) => [entry.start.add(Duration(days: 1))],
+      (entry) => [entry.start.add(const Duration(days: 1))],
     );
   }
 
   void copyToPreviousDay(TimeEntry entry) {
     copyTo(
       entry,
-      (entry) => [entry.start.subtract(Duration(days: 1))],
+      (entry) => [entry.start.subtract(const Duration(days: 1))],
     );
   }
 

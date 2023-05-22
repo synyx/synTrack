@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_debounce_it/just_debounce_it.dart';
-import 'package:meta/meta.dart';
 import 'package:syntrack/model/common/task_search_result.dart';
 import 'package:syntrack/repository/work_repository.dart';
 
@@ -13,7 +14,7 @@ class TaskSearchCubit extends Cubit<TaskSearchState> {
   final WorkRepository workRepository;
   String _prevQuery = '';
 
-  TaskSearchCubit(this.workRepository) : super(Done(const []));
+  TaskSearchCubit(this.workRepository) : super(const Done([]));
 
   Future<void> searchWithDebounce(String query) async {
     if (query == _prevQuery) {
@@ -22,12 +23,12 @@ class TaskSearchCubit extends Cubit<TaskSearchState> {
 
     _prevQuery = query;
 
-    emit(Searching([]));
+    emit(const Searching([]));
     Debounce.milliseconds(1000, search, [query]);
   }
 
   Future<Done> search(String query) async {
-    emit(Searching([]));
+    emit(const Searching([]));
 
     final searchStream = workRepository.search(query);
     await searchStream.forEach((element) {
@@ -40,7 +41,7 @@ class TaskSearchCubit extends Cubit<TaskSearchState> {
   }
 
   Stream<TaskSearchResult> searchStream(String query) async* {
-    emit(Searching([]));
+    emit(const Searching([]));
 
     await for (final searchResult in workRepository.search(query)) {
       emit(Searching([...state.results, searchResult]));

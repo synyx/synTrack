@@ -11,7 +11,7 @@ class TimeEntriesList extends StatelessWidget {
     final entries = context.watch<TimeEntriesCubit>().state;
 
     return ListView.separated(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 8.0,
         left: 8.0,
         right: 8.0,
@@ -19,7 +19,7 @@ class TimeEntriesList extends StatelessWidget {
       itemCount: entries.length + 1,
       itemBuilder: (context, index) {
         if (index == entries.length) {
-          return SizedBox(height: 100);
+          return const SizedBox(height: 100);
         }
 
         final entry = entries[index];
@@ -28,7 +28,7 @@ class TimeEntriesList extends StatelessWidget {
           entry: entry,
         );
       },
-      separatorBuilder: (_, __) => Divider(),
+      separatorBuilder: (_, __) => const Divider(),
     );
   }
 }

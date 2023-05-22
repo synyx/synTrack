@@ -33,7 +33,7 @@ class LatestBookingsDataProvider extends WorkDataProvider<void> {
 
   @override
   Stream<TaskSearchResult> search(config, String query) async* {
-    final _tasks = <Task>{};
+    final tasks = <Task>{};
 
     yield* Stream.fromIterable(timeEntriesCubit.state).where(
       (timeEntry) {
@@ -42,9 +42,9 @@ class LatestBookingsDataProvider extends WorkDataProvider<void> {
       },
     ).where((event) {
       // filter out tasks that are already in the list
-      final contains = !_tasks.contains(event.task);
+      final contains = !tasks.contains(event.task);
       if (event.task != null) {
-        _tasks.add(event.task!);
+        tasks.add(event.task!);
       }
       return event.task == null || contains;
     }).map(

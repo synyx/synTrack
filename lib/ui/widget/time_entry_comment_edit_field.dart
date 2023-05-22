@@ -31,7 +31,7 @@ class TimeEntryCommentEditField extends StatelessWidget {
             ),
           Expanded(
             child: Tooltip(
-              waitDuration: Duration(seconds: 1),
+              waitDuration: const Duration(seconds: 1),
               message: _getCommentDisplayText(entry.comment),
               child: Text(
                 _getCommentDisplayText(entry.comment),
@@ -48,7 +48,7 @@ class TimeEntryCommentEditField extends StatelessWidget {
     return TextFormField(
       key: ValueKey(entry.id),
       initialValue: entry.comment,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Comment',
       ),
       style: style,

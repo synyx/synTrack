@@ -31,9 +31,9 @@ class TaskTrackingHeaderTaskSearchField extends StatelessWidget {
           stopCurrent: !cubit.state.isTracking,
         );
 
-        this.onSearchDone?.call();
+        onSearchDone?.call();
       },
-      onAbort: this.onSearchDone,
+      onAbort: onSearchDone,
       onTextChange: (search) {
         final cubit = context.read<TimeTrackingCubit>();
 

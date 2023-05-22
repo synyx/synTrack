@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syntrack/cubit/work_interface_cubit.dart';
 import 'package:syntrack/model/work/work_interface_configs.dart';
 
+@RoutePage()
 class WorkInterfaceSelectorPage extends StatelessWidget {
   const WorkInterfaceSelectorPage({Key? key}) : super(key: key);
 
@@ -11,7 +12,7 @@ class WorkInterfaceSelectorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Work Interface'),
+        title: const Text('Select Work Interface'),
         centerTitle: true,
       ),
       body: BlocBuilder<WorkInterfaceCubit, WorkInterfaceConfigs>(

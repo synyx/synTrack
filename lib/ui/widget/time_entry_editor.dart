@@ -44,19 +44,19 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
                 ),
               ),
               if (widget.entry.task != null && widget.entry.bookingId == null) ...[
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 TextButton.icon(
                   onPressed: () => _deleteTask(context),
-                  icon: Icon(Icons.delete),
-                  label: Text('DELETE TASK'),
+                  icon: const Icon(Icons.delete),
+                  label: const Text('DELETE TASK'),
                 ),
               ],
               if (widget.entry.task == null) ...[
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 TextButton.icon(
                   onPressed: () => _showTaskSearchField(context),
-                  icon: Icon(Icons.search),
-                  label: Text('SEARCH TASK'),
+                  icon: const Icon(Icons.search),
+                  label: const Text('SEARCH TASK'),
                 ),
               ],
             ],
@@ -64,57 +64,57 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: 600,
               ),
               child: TimeEntryCommentEditField(
                 entry: widget.entry,
                 readOnly: false,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                 ),
               ),
             ),
           ),
-          SizedBox(height: 16),
-          Text('Date:'),
+          const SizedBox(height: 16),
+          const Text('Date:'),
           DateSelector(
             entry: widget.entry,
             readOnly: false,
-            style: TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 24),
           ),
-          SizedBox(height: 16),
-          Text('Time:'),
+          const SizedBox(height: 16),
+          const Text('Time:'),
           TimeSelector(
             entry: widget.entry,
             readOnly: false,
-            style: TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 24),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           if (widget.entry.bookingId == null && widget.entry.task?.availableActivities != null) ...[
-            Text('Activity:'),
+            const Text('Activity:'),
             TimeEntryActivitySelector(entry: widget.entry),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
           if (widget.entry.bookingId != null) ...[
-            Text('Activity:'),
+            const Text('Activity:'),
             Text(widget.entry.activity?.name ?? ''),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
-          Text('Actions:'),
+          const Text('Actions:'),
           TimeEntryActions(
             entry: widget.entry,
             hideActivitySelector: true,
             onBooked: (e) {
               setState(() {
-                _errorMessage = e != null ? e.toString() : null;
+                _errorMessage = e?.toString();
               });
             },
             onTrack: () => context.router.pop(),
             onDelete: () => context.router.pop(),
           ),
           if (_errorMessage != null) ...[
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ErrorDisplay(
               errorMessage: _errorMessage,
             ),
@@ -129,9 +129,9 @@ class _TimeEntryEditorState extends State<TimeEntryEditor> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Search Task'),
+          title: const Text('Search Task'),
           content: ConstrainedBox(
-            constraints: BoxConstraints.expand(
+            constraints: const BoxConstraints.expand(
               width: 1000,
               height: 120,
             ),

@@ -21,8 +21,8 @@ class ActivitySelector extends StatelessWidget {
       items: activities
           .map(
             (e) => DropdownMenuItem<Activity>(
-              child: Text(e.name),
               value: e,
+              child: Text(e.name),
             ),
           )
           .toList(),

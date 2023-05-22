@@ -4,13 +4,13 @@ import 'package:syntrack/util/date_time_extension.dart';
 extension DateTimeExtension on DateTimeRange {
   List<DateTime> getAllDays() {
     List<DateTime> days = [];
-    DateTime currentDate = this.start.startOfDay;
+    DateTime currentDate = start.startOfDay;
 
-    final endEndOfDay = this.end.endOfDay;
+    final endEndOfDay = end.endOfDay;
 
     while (currentDate.isBefore(endEndOfDay)) {
       days.add(currentDate);
-      currentDate = currentDate.add(Duration(days: 1));
+      currentDate = currentDate.add(const Duration(days: 1));
     }
 
     return days;
