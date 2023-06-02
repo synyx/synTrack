@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:syntrack/cubit/task_search_cubit.dart';
 import 'package:syntrack/model/common/task_search_result.dart';
 import 'package:syntrack/ui/widget/work_interface_icon.dart';
+import 'package:syntrack/util/accumulating_stream.dart';
 
 class TaskSearchTextField extends StatefulWidget {
   const TaskSearchTextField({
@@ -68,12 +70,15 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         final query = snapshot.data;
-                        if (query != null) {
-                          final searchResults = <TaskSearchResult>[];
+                        if (query != null && query.trim().isNotEmpty) {
+                          final stream =
+                              AccumulatingStream(context.read<TaskSearchCubit>().searchStream(query).listenAndBuffer());
 
                           return StreamBuilder(
-                            stream: context.read<TaskSearchCubit>().searchStream(query),
+                            stream: stream,
                             builder: (context, snapshot) {
+                              final searchResults = snapshot.data;
+
                               if (snapshot.hasError) {
                                 return ListTile(
                                   leading: const Icon(Icons.error),
@@ -85,15 +90,11 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                                 );
                               }
 
-                              if (snapshot.connectionState == ConnectionState.done && searchResults.isEmpty) {
-                                if (query.trim().isEmpty) {
-                                  return const ListTile(
-                                    leading: Icon(Icons.search),
-                                    title: Text('Start typing to search for a Task'),
-                                    subtitle: Text('Hint: Try \$me or #[TicketID]'),
-                                  );
-                                }
+                              if (searchResults == null) {
+                                return const LinearProgressIndicator();
+                              }
 
+                              if (snapshot.connectionState == ConnectionState.done && searchResults.isEmpty) {
                                 return ListTile(
                                   leading: const Icon(Icons.play_arrow),
                                   title: Text('Start tracking "$query" and set the Task later'),
@@ -103,11 +104,6 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                                     widget.onSubmitted?.call(query);
                                   },
                                 );
-                              }
-
-                              if (snapshot.hasData && snapshot.connectionState == ConnectionState.active) {
-                                final data = snapshot.data!;
-                                searchResults.add(data);
                               }
 
                               return Stack(
@@ -143,6 +139,12 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                                 ],
                               );
                             },
+                          );
+                        } else {
+                          return const ListTile(
+                            leading: Icon(Icons.search),
+                            title: Text('Start typing to search for a Task'),
+                            subtitle: Text('Hint: Try \$me or #[TicketID]'),
                           );
                         }
                       }

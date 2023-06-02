@@ -33,7 +33,7 @@ class LatestBookingsDataProvider extends WorkDataProvider<void> {
 
   @override
   Stream<TaskSearchResult> search(config, String query) async* {
-    final tasks = <Task>{};
+    final tasks = <String>{};
 
     query = query.toLowerCase();
 
@@ -44,11 +44,11 @@ class LatestBookingsDataProvider extends WorkDataProvider<void> {
       },
     ).where((timeEntry) {
       // filter out tasks that are already in the list
-      final contains = !tasks.contains(timeEntry.task);
+      final taskAlreadyFound = timeEntry.task?.id == null ? false : tasks.contains(timeEntry.task?.id);
       if (timeEntry.task != null) {
-        tasks.add(timeEntry.task!);
+        tasks.add(timeEntry.task!.id);
       }
-      return timeEntry.task == null || contains;
+      return timeEntry.task == null || !taskAlreadyFound;
     }).map(
       (e) => TaskSearchResult(
         (b) => b

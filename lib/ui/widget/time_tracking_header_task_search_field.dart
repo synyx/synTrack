@@ -18,7 +18,7 @@ class TaskTrackingHeaderTaskSearchField extends StatelessWidget {
       onSuggestionSelected: (suggestion) {
         final task = suggestion.task;
         final activity = suggestion.activity ?? task?.availableActivities[0];
-        final suggestionComment = suggestion.comment;
+        final suggestionComment = suggestion.comment ?? '';
 
         final cubit = context.read<TimeTrackingCubit>();
         cubit.track(
