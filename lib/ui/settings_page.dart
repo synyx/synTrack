@@ -101,7 +101,12 @@ class SettingsPage extends StatelessWidget {
                             padding: EdgeInsets.all(5),
                           ),
                           trailing: IconButton.filledTonal(
-                            onPressed: () => context.read<WorkInterfaceCubit>().deleteConfig(config.id),
+                            onPressed: () async {
+                              final workInterfaceCubit = context.read<WorkInterfaceCubit>();
+                              if (await _confirm(context)) {
+                                workInterfaceCubit.deleteConfig(config.id);
+                              }
+                            },
                             icon: const Icon(Icons.delete),
                           ),
                         );
@@ -116,7 +121,12 @@ class SettingsPage extends StatelessWidget {
                             padding: EdgeInsets.all(5),
                           ),
                           trailing: IconButton.filledTonal(
-                            onPressed: () => context.read<WorkInterfaceCubit>().deleteConfig(config.id),
+                            onPressed: () async {
+                              final workInterfaceCubit = context.read<WorkInterfaceCubit>();
+                              if (await _confirm(context)) {
+                                workInterfaceCubit.deleteConfig(config.id);
+                              }
+                            },
                             icon: const Icon(Icons.delete),
                           ),
                         );
@@ -134,5 +144,44 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> _confirm(BuildContext context) async {
+    final confirm = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Delete Work Interface?',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.error,
+          ),
+        ),
+        content: const Text('''This action is not reversible'''),
+        actions: [
+          TextButton.icon(
+            icon: Icon(
+              Icons.delete_forever,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            label: Text(
+              'Yes, delete',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ),
+            onPressed: () => Navigator.pop(context, true),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('No, dont delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      return true;
+    }
+    return false;
   }
 }
