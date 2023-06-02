@@ -78,6 +78,30 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
         );
   }
 
+  int activeFilterAmount() {
+    final TimeEntriesFilter(
+      filterActivityNames: filterActivityNames,
+      filterBooked: filterBooked,
+      filterTask: filterTask,
+      filterDuration: filterDuration,
+      filterWeekday: filterWeekday,
+      filterWorkInterfaceId: filterWorkInterfaceId,
+      filterStart: filterStart,
+      filterEnd: filterEnd,
+    ) = state;
+
+    return [
+      filterActivityNames.isNotEmpty ? filterActivityNames : null,
+      filterBooked,
+      filterTask,
+      filterDuration,
+      filterWeekday.isNotEmpty ? filterWeekday : null,
+      filterWorkInterfaceId.isNotEmpty ? filterWorkInterfaceId : null,
+      filterStart,
+      filterEnd,
+    ].where((element) => element != null).length;
+  }
+
   void debouncedFilters(Function(TimeEntriesFilterBuilder) updates) {
     EasyDebounce.debounce('time_entries_filter_cubit.debouncedFilters', const Duration(milliseconds: 500), () {
       setFilters(updates);

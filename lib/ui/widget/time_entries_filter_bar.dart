@@ -43,10 +43,17 @@ class _TimeEntriesFilterBarState extends State<TimeEntriesFilterBar> {
           ],
           Row(
             children: [
-              IconButton(
-                tooltip: 'Filters',
-                icon: Icon(_filtersShown ? Icons.filter_list_off : Icons.filter_list),
-                onPressed: () => toggleFiltersVisibility(context),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Badge.count(
+                  count: context.watch<TimeEntriesFilterCubit>().activeFilterAmount(),
+                  isLabelVisible: context.watch<TimeEntriesFilterCubit>().activeFilterAmount() > 0,
+                  child: IconButton(
+                    tooltip: _filtersShown ? 'Close filters' : 'Filters',
+                    icon: Icon(_filtersShown ? Icons.close : Icons.filter_list),
+                    onPressed: () => toggleFiltersVisibility(context),
+                  ),
+                ),
               ),
               if (!_searchShown)
                 IconButton(
@@ -90,6 +97,14 @@ class _TimeEntriesFilterBarState extends State<TimeEntriesFilterBar> {
           spacing: 6,
           runSpacing: 6,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                tooltip: 'Clear Filters',
+                icon: const Icon(Icons.filter_list_off),
+                onPressed: () => context.read<TimeEntriesFilterCubit>().clearFilters(),
+              ),
+            ),
             SizedBox(
               width: 200,
               child: Column(
@@ -208,10 +223,6 @@ class _TimeEntriesFilterBarState extends State<TimeEntriesFilterBar> {
   void toggleFiltersVisibility(BuildContext context) {
     setState(() {
       _filtersShown = !_filtersShown;
-
-      if (!_filtersShown) {
-        context.read<TimeEntriesFilterCubit>().clearFilters();
-      }
     });
   }
 
