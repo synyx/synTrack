@@ -40,9 +40,11 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
     return timeEntries
         .where(
           (element) => query != null
-              ? '${element.comment.trim()}${element.task?.name ?? '<NO TASK>'}${element.activity?.name ?? '<NO ACTIVITY>'}'
-                  .toLowerCase()
-                  .contains(query.trim().toLowerCase())
+              ? [
+                  element.comment.trim().isEmpty ? '<NO COMMENT>' : element.comment.trim(),
+                  element.task?.name ?? '<NO TASK>',
+                  element.activity?.name ?? '<NO ACTIVITY>',
+                ].join('').toLowerCase().contains(query.trim().toLowerCase())
               : true,
         )
         .where(
