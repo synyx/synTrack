@@ -40,9 +40,11 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
     return timeEntries
         .where(
           (element) => query != null
-              ? '${element.comment.trim()}${element.task?.name ?? '<NO TASK>'}${element.activity?.name ?? '<NO ACTIVITY>'}'
-                  .toLowerCase()
-                  .contains(query.trim().toLowerCase())
+              ? [
+                  element.comment.trim().isEmpty ? '<NO COMMENT>' : element.comment.trim(),
+                  element.task?.name ?? '<NO TASK>',
+                  element.activity?.name ?? '<NO ACTIVITY>',
+                ].join('').toLowerCase().contains(query.trim().toLowerCase())
               : true,
         )
         .where(
@@ -74,6 +76,30 @@ class TimeEntriesFilterCubit extends Cubit<TimeEntriesFilter> {
         .where(
           (element) => filterDuration != null ? filterDuration.inSeconds <= element.duration.inSeconds : true,
         );
+  }
+
+  int activeFilterAmount() {
+    final TimeEntriesFilter(
+      filterActivityNames: filterActivityNames,
+      filterBooked: filterBooked,
+      filterTask: filterTask,
+      filterDuration: filterDuration,
+      filterWeekday: filterWeekday,
+      filterWorkInterfaceId: filterWorkInterfaceId,
+      filterStart: filterStart,
+      filterEnd: filterEnd,
+    ) = state;
+
+    return [
+      filterActivityNames.isNotEmpty ? filterActivityNames : null,
+      filterBooked,
+      filterTask,
+      filterDuration,
+      filterWeekday.isNotEmpty ? filterWeekday : null,
+      filterWorkInterfaceId.isNotEmpty ? filterWorkInterfaceId : null,
+      filterStart,
+      filterEnd,
+    ].where((element) => element != null).length;
   }
 
   void debouncedFilters(Function(TimeEntriesFilterBuilder) updates) {
