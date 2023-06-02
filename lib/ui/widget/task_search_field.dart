@@ -127,7 +127,9 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                                           ),
                                           child: WorkInterfaceIcon(origin: suggestion.origin),
                                         ),
-                                        title: Text(suggestion.displayText),
+                                        title: Text(suggestion.displayText.isNotEmpty
+                                            ? suggestion.displayText
+                                            : '<NO COMMENT>'),
                                         subtitle: Text('#${suggestion.task?.id ?? "<No Task>"}'),
                                         onTap: () {
                                           controller.closeView(null);
@@ -141,10 +143,14 @@ class _TaskSearchTextFieldState extends State<TaskSearchTextField> {
                             },
                           );
                         } else {
-                          return const ListTile(
-                            leading: Icon(Icons.search),
-                            title: Text('Start typing to search for a Task'),
-                            subtitle: Text('Hint: Try \$me or #[TicketID]'),
+                          return ListTile(
+                            leading: const Icon(Icons.search),
+                            title: const Text('Start typing to search for a Task'),
+                            subtitle: const Text('Hint: Try \$me or #[TicketID]'),
+                            onTap: () {
+                              controller.closeView(null);
+                              widget.onSubmitted?.call('');
+                            },
                           );
                         }
                       }

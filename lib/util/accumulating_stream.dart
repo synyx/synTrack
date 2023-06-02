@@ -8,7 +8,7 @@ class AccumulatingStream<T> extends Stream<List<T>> {
   AccumulatingStream(Stream<T> sourceStream) {
     _sub = sourceStream.listen((data) {
       _list.add(data);
-      _accumulatingController.add(_list);
+      _accumulatingController.add([..._list]);
     }, onError: (error) {
       _accumulatingController.addError(error);
     }, onDone: () {
