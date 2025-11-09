@@ -3,7 +3,7 @@ description: A time tracking and booking tool
 
 publish_to: 'none'
 
-version: 1.4.2+8
+version: 1.4.3+9
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -24,7 +24,7 @@ dependencies:
   flutter_bloc: ^8.0.0
   http: ^0.13.3
   hydrated_bloc: ^9.1.0
-  intl: ^0.18.0
+  intl: ^0.20.2
   just_debounce_it: ^4.0.0+2
   path_provider: ^2.0.2
   sizer: ^2.0.13
@@ -38,17 +38,21 @@ dependencies:
   easy_debounce: ^2.0.3
   collection: ^1.17.1
   isoweek: ^1.1.4
-  sliver_tools: ^0.2.10
+  sliver_tools: ^0.2.12
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^7.0.0
-  build_runner: ^2.3.3
+  build_runner: ^2.4.0
   built_value_generator: ^8.1.0
+  watcher: ^1.1.0
   copy_with_extension_gen: ^5.0.0
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.1
+
+dependency_overrides:
+  win32: ^5.15.0
 
 flutter:
   uses-material-design: true
