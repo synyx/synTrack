@@ -28,7 +28,7 @@ void main() async {
   await createHydratedBoxBackup(appDir);
 
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: appDir,
+    storageDirectory: HydratedStorageDirectory(appDir.path),
   );
 
   runApp(SynTrack());
@@ -129,8 +129,7 @@ class SynTrack extends StatelessWidget {
                 colorSchemeSeed: const Color(0xFF1923DC),
               ),
               themeMode: context.watch<ThemeModeCubit>().state,
-              routerDelegate: _appRouter.delegate(),
-              routeInformationParser: _appRouter.defaultRouteParser(),
+              routerConfig: _appRouter.config(),
             );
           },
         ),
