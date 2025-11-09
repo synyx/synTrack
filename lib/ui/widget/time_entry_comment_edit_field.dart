@@ -32,7 +32,7 @@ class TimeEntryCommentEditField extends StatelessWidget {
                 origin: context.read<WorkInterfaceCubit>().getOriginFor(entry.task!.workInterfaceId),
               ),
             ),
-          if (SizerUtil.deviceType == DeviceType.mobile)
+          if (Device.screenType == ScreenType.mobile)
             Padding(
               padding: const EdgeInsets.only(right: 4.0),
               child: Icon(

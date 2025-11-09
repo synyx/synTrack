@@ -66,7 +66,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
-                      readOnly: SizerUtil.deviceType == DeviceType.mobile,
+                      readOnly: Device.screenType == ScreenType.mobile,
                     ),
                     Text(
                         '${(entry.end.difference(entry.start).inMinutes / 60).toStringAsFixed(2)}h ${entry.activity?.name ?? '<NO ACTIVITY>'}'),
@@ -88,7 +88,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                   Text(entry.task != null ? '#${entry.task!.id} ${entry.task!.name}' : '<NO TASK>'),
                   TimeSelector(
                     entry: entry,
-                    readOnly: SizerUtil.deviceType == DeviceType.mobile,
+                    readOnly: Device.screenType == ScreenType.mobile,
                   ),
                 ],
               ),
@@ -98,7 +98,7 @@ class _TimeEntryListTileState extends State<TimeEntryListTile> {
                 errorMessage: _errorMessage,
                 dense: true,
               ),
-            if (SizerUtil.deviceType != DeviceType.mobile)
+            if (Device.screenType != ScreenType.mobile)
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: TimeEntryActions(

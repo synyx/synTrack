@@ -46,7 +46,7 @@ class TrackPage extends StatelessWidget {
         ),
       ),
       floatingActionButton:
-          context.watch<TimeTrackingCubit>().state.start != null && SizerUtil.deviceType == DeviceType.mobile
+          context.watch<TimeTrackingCubit>().state.start != null && Device.screenType == ScreenType.mobile
               ? FloatingActionButton(
                   // backgroundColor: Theme.of(context).colorScheme.onPrimary,
                   onPressed: () => context.read<TimeTrackingCubit>().stop(),

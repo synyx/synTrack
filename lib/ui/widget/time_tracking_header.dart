@@ -22,8 +22,8 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
   Widget build(BuildContext context) {
     final trackingState = context.watch<TimeTrackingCubit>().state;
 
-    final padding = SizerUtil.deviceType == DeviceType.mobile ? 4.0 : 8.0;
-    final spacing = SizerUtil.deviceType == DeviceType.mobile ? 8.0 : 16.0;
+    final padding = Device.screenType == ScreenType.mobile ? 4.0 : 8.0;
+    final spacing = Device.screenType == ScreenType.mobile ? 8.0 : 16.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -74,7 +74,7 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
                   SizedBox(width: spacing),
                   if (trackingState.isTracking &&
                       trackingState.task != null &&
-                      SizerUtil.deviceType != DeviceType.mobile) ...[
+                      Device.screenType != ScreenType.mobile) ...[
                     ActivitySelector(
                       selectedActivity: trackingState.activity,
                       activities: trackingState.task!.availableActivities.toList(),
@@ -89,7 +89,7 @@ class _TimeTrackingHeaderState extends State<TimeTrackingHeader> {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  if (SizerUtil.deviceType != DeviceType.mobile) const StartStopOrDiscardTrackingButton(),
+                  if (Device.screenType != ScreenType.mobile) const StartStopOrDiscardTrackingButton(),
                 ],
               ],
             ),
