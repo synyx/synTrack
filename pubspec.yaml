@@ -52,7 +52,8 @@ dev_dependencies:
   flutter_lints: ^2.0.1
 
 dependency_overrides:
-  win32: ^5.15.0
+  archive: ^4.0.7
+  flutter_keyboard_visibility: ^6.0.0
 
 flutter:
   uses-material-design: true
