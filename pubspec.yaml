@@ -21,9 +21,9 @@ dependencies:
   copy_with_extension: ^5.0.0
   cupertino_icons: ^1.0.2
   equatable: ^2.0.3
-  flutter_bloc: ^8.0.0
+  flutter_bloc: ^9.1.1
   http: ^1.5.0
-  hydrated_bloc: ^9.1.0
+  hydrated_bloc: ^10.1.1
   intl: ^0.20.2
   just_debounce_it: ^4.0.0+2
   path_provider: ^2.0.2

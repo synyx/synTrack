@@ -28,7 +28,7 @@ void main() async {
   await createHydratedBoxBackup(appDir);
 
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: appDir,
+    storageDirectory: HydratedStorageDirectory(appDir.path),
   );
 
   runApp(SynTrack());
