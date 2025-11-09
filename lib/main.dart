@@ -129,8 +129,7 @@ class SynTrack extends StatelessWidget {
                 colorSchemeSeed: const Color(0xFF1923DC),
               ),
               themeMode: context.watch<ThemeModeCubit>().state,
-              routerDelegate: _appRouter.delegate(),
-              routeInformationParser: _appRouter.defaultRouteParser(),
+              routerConfig: _appRouter.config(),
             );
           },
         ),
